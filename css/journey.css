@@ -175,7 +175,7 @@
     padding: 20px 10px 16px;
     border-radius: 16px;
     border: 2px solid var(--border);
-    background: var(--sidebar-accent);
+    background: var(--achievement-bg);
     transition: transform 0.2s;
     cursor: default;
     contain: layout style;
@@ -212,7 +212,7 @@
 }
 
 .achievement.locked .achievement-icon {
-    background: var(--border);
+    background: var(--achievement-locked-icon-bg);
     color: var(--muted);
 }
 
@@ -303,7 +303,7 @@
 
 .milestone-content {
     flex: 1;
-    background: var(--sidebar-accent);
+    background: var(--milestone-bg);
     border-radius: 12px;
     padding: 16px;
     border: 1px solid var(--border);

@@ -11,9 +11,9 @@
     --card-fg: #0d0d1a;
     --muted: #374151;
     --border: rgba(0, 0, 0, 0.15);
-    --sidebar-bg: rgba(26, 26, 46, 0.97);
-    --sidebar-fg: #f0f4f8;
-    --sidebar-accent: rgba(255, 255, 255, 0.1);
+    --sidebar-bg: rgba(255, 255, 255, 0.97);
+    --sidebar-fg: #1f2937;
+    --sidebar-accent: rgba(0, 0, 0, 0.05);
     --success: #16a34a;
     --warning: #d97706;
     --danger: #dc2626;
@@ -24,6 +24,20 @@
     --select-fg: #0d0d1a;
     --glass-bg: rgba(255, 255, 255, 0.85);
     --glass-border: rgba(0, 0, 0, 0.1);
+    --calendar-day-bg: #f3f4f6;
+    --calendar-day-fg: #374151;
+    --achievement-bg: rgba(0, 0, 0, 0.03);
+    --achievement-unlocked-bg: rgba(245, 169, 184, 0.06);
+    --achievement-locked-icon-bg: rgba(0, 0, 0, 0.08);
+    --milestone-bg: rgba(0, 0, 0, 0.03);
+    --journey-badge-bg: rgba(245, 169, 184, 0.1);
+    --nav-item-fg: #4b5563;
+    --nav-item-active-fg: #1f2937;
+    --nav-item-active-bg: rgba(0, 0, 0, 0.06);
+    --glass-card-bg: rgba(255, 255, 255, 0.95);
+    --glass-card-border: rgba(0, 0, 0, 0.1);
+    --glass-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    --canvas-bg: rgba(0, 0, 0, 0.05);
 }
 
 .dark {
@@ -49,6 +63,20 @@
     --select-fg: #e8e8f0;
     --glass-bg: rgba(30, 30, 50, 0.85);
     --glass-border: rgba(255, 255, 255, 0.1);
+    --calendar-day-bg: rgba(255, 255, 255, 0.06);
+    --calendar-day-fg: #e8e8f0;
+    --achievement-bg: rgba(255, 255, 255, 0.04);
+    --achievement-unlocked-bg: rgba(245, 169, 184, 0.08);
+    --achievement-locked-icon-bg: rgba(255, 255, 255, 0.08);
+    --milestone-bg: rgba(255, 255, 255, 0.04);
+    --journey-badge-bg: rgba(245, 169, 184, 0.08);
+    --nav-item-fg: var(--sidebar-fg);
+    --nav-item-active-fg: #ffffff;
+    --nav-item-active-bg: rgba(255, 255, 255, 0.1);
+    --glass-card-bg: rgba(30, 30, 50, 0.85);
+    --glass-card-border: rgba(255, 255, 255, 0.1);
+    --glass-card-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --canvas-bg: rgba(0, 0, 0, 0.3);
 }
 
 * {
@@ -145,7 +173,7 @@ body {
     transition: background 0.3s, color 0.3s;
 }
 
-.dark body {
+body.dark {
     background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 50%, #0f0f1a 100%);
 }
 

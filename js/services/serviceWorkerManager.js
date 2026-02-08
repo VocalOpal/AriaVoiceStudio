@@ -1,14 +1,7 @@
 // Aria Voice Studio - Service Worker Manager
 // Extracted from app.js for modular architecture
 
-// Debug configuration
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from '../utils/debug.js';
 
 /**
  * Show update notification when new service worker is waiting
@@ -133,31 +126,11 @@ export function trackServiceWorkerState(registration) {
 export async function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         try {
-            // Try different paths for GitHub Pages compatibility
-            const possiblePaths = [
-                '/AriaVoiceStudio/service-worker.js',
-                '/service-worker.js',
-                './service-worker.js',
-                new URL('/service-worker.js', window.location.origin).href
-            ];
-            let reg = null;
-            let lastError = null;
-
-            for (const path of possiblePaths) {
-                try {
-                    reg = await navigator.serviceWorker.register(path);
-                    debugLog('App', 'Service worker registered:', reg.scope, 'path:', path);
-                    break;
-                } catch (err) {
-                    lastError = err;
-                    debugLog('App', `Failed to register SW at ${path}:`, err.message);
-                    continue;
-                }
-            }
-
-            if (!reg && lastError) {
-                throw lastError;
-            }
+            // Derive SW path from the current page location for compatibility
+            // with any deployment (root, subdirectory, GitHub Pages, etc.)
+            const swUrl = new URL('./service-worker.js', window.location.href).href;
+            const reg = await navigator.serviceWorker.register(swUrl);
+            debugLog('App', 'Service worker registered:', reg.scope, 'path:', swUrl);
             
             // Track for updates
             trackServiceWorkerState(reg);

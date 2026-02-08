@@ -42,6 +42,7 @@ export class ErrorBoundary {
             notification = document.createElement('div');
             notification.id = 'errorNotification';
             notification.className = 'error-notification';
+            notification.setAttribute('role', 'alert');
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;

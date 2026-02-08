@@ -5,13 +5,7 @@ import { loadJourneyScreen } from '../achievements/index.js';
 import { loadSnapshots } from '../snapshots/index.js';
 import { loadSavedSettings } from './settingsManager.js';
 
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from '../../utils/debug.js';
 
 export async function exportAllData() {
     try {

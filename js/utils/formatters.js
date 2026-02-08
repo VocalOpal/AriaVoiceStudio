@@ -36,11 +36,4 @@ export function formatPercent(value, isDecimal = false) {
     return `${percent}%`;
 }
 
-export default {
-    formatDuration,
-    formatDate,
-    formatTime,
-    formatBytes,
-    formatPitch,
-    formatPercent
-};
+

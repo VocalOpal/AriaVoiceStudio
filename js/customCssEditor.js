@@ -129,8 +129,8 @@ class CustomCssEditor {
         const rawCss = cssInput?.value || '';
         const result = this.sanitizeCss(rawCss);
 
-        // Store the raw input but only apply sanitized
-        localStorage.setItem('aria-custom-css', rawCss);
+        // Store the sanitized CSS only — never persist raw unsanitized input
+        localStorage.setItem('aria-custom-css', result.sanitized);
         this.applyCss(result.sanitized);
 
         if (result.blocked.length > 0) {
@@ -190,9 +190,17 @@ class CustomCssEditor {
     }
 }
 
-// Initialize when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.customCssEditor = new CustomCssEditor();
-});
+let _instance = null;
+
+export function initCustomCssEditor() {
+    if (!_instance) {
+        _instance = new CustomCssEditor();
+    }
+    return _instance;
+}
+
+export function getCustomCssEditor() {
+    return _instance;
+}
 
 export { CustomCssEditor };

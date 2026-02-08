@@ -537,9 +537,17 @@ class ThemeManager {
     }
 }
 
-// Initialize theme manager when DOM is ready
-document.addEventListener('DOMContentLoaded', () => {
-    window.themeManager = new ThemeManager();
-});
+let _instance = null;
+
+export function initThemeManager() {
+    if (!_instance) {
+        _instance = new ThemeManager();
+    }
+    return _instance;
+}
+
+export function getThemeManager() {
+    return _instance;
+}
 
 export { ThemeManager };

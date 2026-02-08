@@ -2,14 +2,7 @@ import { put, get, getAll, getByIndex, remove, STORES } from './storage.js';
 import { events, EventTypes } from './events.js';
 
 // Debug configuration
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-// Debug logging function
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from '../utils/debug.js';
 
 // Constants
 

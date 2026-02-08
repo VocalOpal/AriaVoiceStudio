@@ -5,13 +5,13 @@ import {
     initProfileTabs, updateModalPitchRange, updateSensitivityMeter,
     saveProfileSettings
 } from './profileModal.js';
-import { handleAvatarUpload, loadProfileImage } from './avatarManager.js';
+import { handleAvatarUpload, loadProfileImage, removeProfileImage } from './avatarManager.js';
 
 export {
     openProfileModal, closeProfileModal,
     initProfileTabs, updateModalPitchRange, updateSensitivityMeter,
     saveProfileSettings,
-    handleAvatarUpload, loadProfileImage
+    handleAvatarUpload, loadProfileImage, removeProfileImage
 };
 
 // Single init entry point for app.js

@@ -256,10 +256,11 @@
     aspect-ratio: 1;
     border-radius: 6px;
     display: flex;
+    background: var(--calendar-day-bg);
+    color: var(--calendar-day-fg);
     align-items: center;
     justify-content: center;
     font-size: 11px;
-    background: var(--card);
 }
 
 .calendar-day.completed {
@@ -872,40 +873,12 @@
     border: 1px solid var(--danger);
 }
 
-.css-editor {
-    width: 100%;
-    min-height: 120px;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--input-bg);
-    color: var(--input-fg);
-    font-family: 'Fira Code', 'Monaco', monospace;
-    font-size: 13px;
-    line-height: 1.5;
-    resize: vertical;
-    margin-bottom: 12px;
-}
-
-.css-editor:focus {
-    outline: none;
-    border-color: var(--trans-pink);
-}
-
 .danger-zone {
     border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .danger-zone .section-header h3 {
     color: var(--danger);
-}
-
-.btn-danger {
-    background: var(--danger);
-    color: white;
-    display: flex;
-    align-items: center;
-    gap: 8px;
 }
 
 .btn-danger:hover {

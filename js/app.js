@@ -16,11 +16,12 @@ import {
 } from './features/vocal-exercises/exerciseUI.js';
 
 import { ErrorBoundary } from './utils/errorBoundary.js';
+import { initThemeManager } from './themeManager.js';
+import { initCustomCssEditor } from './customCssEditor.js';
 import { registerServiceWorker } from './services/serviceWorkerManager.js';
 import { showToast } from './ui/toast.js';
 import { formatDuration } from './utils/formatters.js';
 
-import { startLeakDetection } from './utils/memoryManager.js';
 import { initNavigation, navigateToScreen, initTheme } from './ui/navigation.js';
 import { checkOnboarding, startTutorial } from './features/onboarding/index.js';
 import { checkAchievements, loadJourneyScreen } from './features/achievements/index.js';
@@ -42,16 +43,7 @@ import {
     updateRangeVisualization, updateSidebarProfile
 } from './features/settings/index.js';
 
-startLeakDetection(30000);
-
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-// Debug logging function
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from './utils/debug.js';
 
 const stateManager = getStateManager();
 const state = stateManager.state;
@@ -1208,6 +1200,8 @@ async function init() {
     
     initTheme(elements);
     initNavigation(elements);
+    initThemeManager();
+    initCustomCssEditor();
     initEventListeners();
     renderExercises();
     

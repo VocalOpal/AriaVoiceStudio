@@ -7,14 +7,6 @@ export {
 } from './inputValidator.js';
 
 export { 
-    MemoryManager, 
-    getMemoryManager, 
-    startLeakDetection 
-} from './memoryManager.js';
-
-export { 
-    PerformanceMonitor, 
-    getPerformanceMonitor,
     throttle, 
     debounce, 
     requestIdleCallback, 

@@ -3,13 +3,7 @@
 import { get, getAll, STORES } from '../../core/storage.js';
 import { ACHIEVEMENT_DEFINITIONS, ACHIEVEMENT_ICONS } from './achievementDefinitions.js';
 
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from '../../utils/debug.js';
 
 export function updateAchievementUI(achievementId, unlocked) {
     const el = document.querySelector(`.achievement[data-id="${achievementId}"]`);
@@ -49,19 +43,7 @@ export async function loadAchievementsUI() {
         // Render achievements grid
         const grid = document.getElementById('achievementsGrid');
         if (grid) {
-            grid.innerHTML = ACHIEVEMENT_DEFINITIONS.map(def => {
-                const unlocked = unlockedIds.has(def.id);
-                const iconSvg = ACHIEVEMENT_ICONS[def.icon] || ACHIEVEMENT_ICONS.fire;
-                return `
-                    <div class="achievement ${unlocked ? 'unlocked' : 'locked'}" data-id="${def.id}">
-                        <div class="achievement-icon">
-                            ${iconSvg}
-                        </div>
-                        <span class="achievement-label">${def.label}</span>
-                        <span class="achievement-desc">${def.desc}</span>
-                    </div>
-                `;
-            }).join('');
+            renderAchievementsGrid(grid, ACHIEVEMENT_DEFINITIONS, unlockedIds);
         }
 
         debugLog('Achievements', 'UI updated, unlocked:', count, '/', total);
@@ -123,19 +105,7 @@ export async function loadJourneyScreen() {
 
         const grid = document.getElementById('achievementsGrid');
         if (grid) {
-            grid.innerHTML = ACHIEVEMENT_DEFINITIONS.map(def => {
-                const unlocked = unlockedIds.has(def.id);
-                const iconSvg = ACHIEVEMENT_ICONS[def.icon] || ACHIEVEMENT_ICONS.fire;
-                return `
-                    <div class="achievement ${unlocked ? 'unlocked' : 'locked'}" data-id="${def.id}">
-                        <div class="achievement-icon">
-                            ${iconSvg}
-                        </div>
-                        <span class="achievement-label">${def.label}</span>
-                        <span class="achievement-desc">${def.desc}</span>
-                    </div>
-                `;
-            }).join('');
+            renderAchievementsGrid(grid, ACHIEVEMENT_DEFINITIONS, unlockedIds);
         }
 
         // --- Milestones timeline ---
@@ -145,6 +115,37 @@ export async function loadJourneyScreen() {
             'achievements:', count, '/', total, 'streak:', streakData.currentStreak);
     } catch (err) {
         console.error('[Journey] Failed to load screen:', err);
+    }
+}
+
+function renderAchievementsGrid(grid, definitions, unlockedIds) {
+    grid.setAttribute('role', 'list');
+    grid.innerHTML = '';
+    for (const def of definitions) {
+        const unlocked = unlockedIds.has(def.id);
+        const iconSvg = ACHIEVEMENT_ICONS[def.icon] || ACHIEVEMENT_ICONS.fire;
+
+        const el = document.createElement('div');
+        el.className = `achievement ${unlocked ? 'unlocked' : 'locked'}`;
+        el.dataset.id = def.id;
+        el.setAttribute('role', 'listitem');
+
+        const iconDiv = document.createElement('div');
+        iconDiv.className = 'achievement-icon';
+        iconDiv.innerHTML = iconSvg; // SVG markup from hardcoded definitions — safe
+
+        const label = document.createElement('span');
+        label.className = 'achievement-label';
+        label.textContent = def.label;
+
+        const desc = document.createElement('span');
+        desc.className = 'achievement-desc';
+        desc.textContent = def.desc;
+
+        el.appendChild(iconDiv);
+        el.appendChild(label);
+        el.appendChild(desc);
+        grid.appendChild(el);
     }
 }
 

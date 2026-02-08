@@ -13,10 +13,18 @@ export function showToast(message, type = 'info') {
     
     const toast = document.createElement('div');
     toast.className = `toast-notification toast-${type}`;
-    toast.innerHTML = `
-        <span>${message}</span>
-        <button class="toast-close">&times;</button>
-    `;
+    toast.setAttribute('role', 'alert');
+
+    const span = document.createElement('span');
+    span.textContent = message;
+
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'toast-close';
+    closeBtn.textContent = '\u00D7';
+    closeBtn.setAttribute('aria-label', 'Dismiss notification');
+
+    toast.appendChild(span);
+    toast.appendChild(closeBtn);
     
     document.body.appendChild(toast);
     
@@ -24,7 +32,7 @@ export function showToast(message, type = 'info') {
     requestAnimationFrame(() => toast.classList.add('show'));
     
     // Close on click
-    toast.querySelector('.toast-close').addEventListener('click', () => {
+    closeBtn.addEventListener('click', () => {
         toast.classList.remove('show');
         setTimeout(() => toast.remove(), 300);
     });

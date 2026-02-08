@@ -5,8 +5,11 @@ export function initNavigation(elements = null) {
     navItems.forEach(item => {
         item.addEventListener('click', () => {
             navigateToScreen(item.dataset.screen, elements);
+            closeMobileMenu();
         });
     });
+
+    initMobileMenu();
 }
 
 export function navigateToScreen(screenId, elements = null) {
@@ -29,6 +32,8 @@ export function navigateToScreen(screenId, elements = null) {
         if (heading) {
             heading.setAttribute('tabindex', '-1');
             heading.focus();
+            // Remove tabindex after blur to prevent permanent tab-order pollution
+            heading.addEventListener('blur', () => heading.removeAttribute('tabindex'), { once: true });
         }
     }
 }
@@ -61,6 +66,37 @@ export function syncThemeToggle() {
     themeToggles.forEach(btn => {
         btn.classList.toggle('active', btn.dataset.theme === (isDark ? 'dark' : 'light'));
     });
+}
+
+function initMobileMenu() {
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    const sidebar = document.getElementById('sidebar');
+    if (!menuBtn || !sidebar) return;
+
+    // Create backdrop element
+    let backdrop = document.querySelector('.sidebar-backdrop');
+    if (!backdrop) {
+        backdrop = document.createElement('div');
+        backdrop.className = 'sidebar-backdrop';
+        sidebar.parentNode.insertBefore(backdrop, sidebar.nextSibling);
+    }
+
+    menuBtn.addEventListener('click', () => {
+        const isOpen = sidebar.classList.toggle('open');
+        backdrop.classList.toggle('active', isOpen);
+        menuBtn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+
+    backdrop.addEventListener('click', closeMobileMenu);
+}
+
+function closeMobileMenu() {
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.querySelector('.sidebar-backdrop');
+    const menuBtn = document.getElementById('mobileMenuBtn');
+    if (sidebar) sidebar.classList.remove('open');
+    if (backdrop) backdrop.classList.remove('active');
+    if (menuBtn) menuBtn.setAttribute('aria-expanded', 'false');
 }
 
 export default {

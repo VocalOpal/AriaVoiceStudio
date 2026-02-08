@@ -1,5 +1,5 @@
 // Avatar Manager - handles profile image upload and display
-import { put, get, STORES } from '../../core/storage.js';
+import { put, get, remove, STORES } from '../../core/storage.js';
 import { showToast } from '../../ui/toast.js';
 
 export async function handleAvatarUpload(event) {
@@ -42,10 +42,10 @@ export async function handleAvatarUpload(event) {
         const sidebarAvatar = document.getElementById('profileAvatar');
 
         if (modalAvatar) {
-            modalAvatar.innerHTML = `<img src="${resizedUrl}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+            setAvatarImage(modalAvatar, resizedUrl, '50%');
         }
         if (sidebarAvatar) {
-            sidebarAvatar.innerHTML = `<img src="${resizedUrl}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+            setAvatarImage(sidebarAvatar, resizedUrl, '10px');
         }
 
         showToast('Profile picture updated!', 'success');
@@ -54,6 +54,18 @@ export async function handleAvatarUpload(event) {
         console.error('[Avatar] Upload failed:', err);
         showToast('Failed to upload image', 'error');
     }
+}
+
+function setAvatarImage(container, src, borderRadius) {
+    let img = container.querySelector('img');
+    if (!img) {
+        container.textContent = '';
+        img = document.createElement('img');
+        img.alt = 'Profile';
+        img.style.cssText = `width:100%;height:100%;object-fit:cover;border-radius:${borderRadius};`;
+        container.appendChild(img);
+    }
+    img.src = src;
 }
 
 function resizeImage(dataUrl, maxWidth, maxHeight) {
@@ -88,6 +100,31 @@ function resizeImage(dataUrl, maxWidth, maxHeight) {
     });
 }
 
+export async function removeProfileImage() {
+    try {
+        await remove(STORES.METADATA, 'profileImage');
+
+        const modalAvatar = document.getElementById('modalProfileAvatar');
+        const sidebarAvatar = document.getElementById('profileAvatar');
+
+        if (modalAvatar) {
+            const img = modalAvatar.querySelector('img');
+            if (img) img.remove();
+            modalAvatar.textContent = modalAvatar.dataset.initial || 'U';
+        }
+        if (sidebarAvatar) {
+            const img = sidebarAvatar.querySelector('img');
+            if (img) img.remove();
+            sidebarAvatar.textContent = sidebarAvatar.dataset.initial || 'U';
+        }
+
+        showToast('Profile picture removed', 'info');
+    } catch (err) {
+        console.error('[Avatar] Remove failed:', err);
+        showToast('Failed to remove image', 'error');
+    }
+}
+
 export async function loadProfileImage() {
     try {
         const imageData = await get(STORES.METADATA, 'profileImage');
@@ -96,10 +133,10 @@ export async function loadProfileImage() {
             const sidebarAvatar = document.getElementById('profileAvatar');
 
             if (modalAvatar) {
-                modalAvatar.innerHTML = `<img src="${imageData.data}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:50%;">`;
+                setAvatarImage(modalAvatar, imageData.data, '50%');
             }
             if (sidebarAvatar) {
-                sidebarAvatar.innerHTML = `<img src="${imageData.data}" alt="Profile" style="width:100%;height:100%;object-fit:cover;border-radius:10px;">`;
+                setAvatarImage(sidebarAvatar, imageData.data, '10px');
             }
         }
     } catch (err) {

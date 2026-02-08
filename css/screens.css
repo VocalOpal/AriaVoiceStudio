@@ -1065,15 +1065,8 @@
 }
 
 /* ============================================
-   Theme Editor (Legacy - can be removed later)
+   Theme Editor
    ============================================ */
-.section-desc {
-    font-size: 13px;
-    color: var(--muted);
-    margin-bottom: 16px;
-    line-height: 1.4;
-}
-
 .preset-buttons {
     display: flex;
     gap: 8px;
@@ -1347,24 +1340,12 @@
     margin-bottom: 12px;
 }
 
-.preset-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.preset-btn {
+.preset-section .preset-btn {
     padding: 8px 12px;
-    border-radius: 8px;
-    border: 1px solid var(--border);
-    background: var(--sidebar-accent);
-    color: var(--fg);
     font-size: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
 }
 
-.preset-btn:hover {
+.preset-section .preset-btn:hover {
     transform: scale(1.02);
 }
 
@@ -1390,95 +1371,7 @@
     background: var(--sidebar-accent);
 }
 
-/* ============================================
-   LIGHT THEME CONTRAST FIXES
-   ============================================ */
-body:not(.dark) {
-    --muted: #4b5563;
-    --border: rgba(0, 0, 0, 0.15);
-}
 
-body:not(.dark) .nav-item {
-    color: #4b5563;
-}
-
-body:not(.dark) .nav-item:hover,
-body:not(.dark) .nav-item.active {
-    color: #1f2937;
-    background: rgba(0, 0, 0, 0.06);
-}
-
-body:not(.dark) .sidebar {
-    background: rgba(255, 255, 255, 0.97);
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-body:not(.dark) .sidebar-fg {
-    color: #1f2937;
-}
-
-body:not(.dark) .logo-text h1 {
-    color: #1f2937;
-}
-
-body:not(.dark) .streak-value,
-body:not(.dark) .profile-name {
-    color: #1f2937;
-}
-
-body:not(.dark) .stat-value {
-    color: #1f2937;
-}
-
-body:not(.dark) .glass-card h3,
-body:not(.dark) .glass-card h4 {
-    color: #1f2937;
-}
-
-body:not(.dark) .setting-input,
-body:not(.dark) .setting-select {
-    background: #ffffff;
-    border-color: rgba(0, 0, 0, 0.15);
-    color: #1f2937;
-}
-
-body:not(.dark) .sidebar-accent {
-    background: rgba(0, 0, 0, 0.05);
-}
-
-body:not(.dark) .streak-card,
-body:not(.dark) .profile-card {
-    background: rgba(0, 0, 0, 0.04);
-}
-
-body:not(.dark) .modal-content {
-    background: #ffffff;
-}
-
-body:not(.dark) .calendar-day {
-    background: #f3f4f6;
-    color: #374151;
-}
-
-body:not(.dark) .achievement {
-    background: rgba(0, 0, 0, 0.03);
-}
-
-body:not(.dark) .achievement.unlocked {
-    background: rgba(245, 169, 184, 0.06);
-}
-
-body:not(.dark) .achievement.locked .achievement-icon {
-    background: rgba(0, 0, 0, 0.08);
-}
-
-body:not(.dark) .journey-badge-count {
-    background: rgba(245, 169, 184, 0.1);
-}
-
-body:not(.dark) .milestone-content {
-    background: rgba(0, 0, 0, 0.03);
-}
 
 /* ============================================
    PROFILE SCREEN - ACTIONABLE METRICS

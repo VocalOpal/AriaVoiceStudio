@@ -8,3 +8,9 @@ export {
     saveSettings,
     loadSettings
 } from './settingsService.js';
+
+export {
+    registerServiceWorker,
+    showUpdateNotification,
+    trackServiceWorkerState
+} from './serviceWorkerManager.js';

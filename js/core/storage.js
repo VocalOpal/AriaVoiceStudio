@@ -4,14 +4,7 @@ const DB_NAME = 'aria-voice-studio';
 const DB_VERSION = 1;
 
 // Debug configuration
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-// Debug logging function
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from '../utils/debug.js';
 
 export const STORES = {
     PROFILES: 'profiles',

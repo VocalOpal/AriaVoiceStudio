@@ -4,13 +4,7 @@ import { getAll, put, STORES } from '../../core/storage.js';
 import { updateAchievementUI } from './achievementUI.js';
 import { ACHIEVEMENT_DEFINITIONS } from './achievementDefinitions.js';
 
-const DEBUG = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-
-function debugLog(category, ...args) {
-    if (DEBUG) {
-        console.log(`[${category}]`, ...args);
-    }
-}
+import { debugLog } from '../../utils/debug.js';
 
 export async function checkAchievements(sessions, streakData, totalTime) {
     try {
