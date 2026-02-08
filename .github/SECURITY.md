@@ -1,14 +1,13 @@
-# Security Policy
+# Security
 
-## Supported Versions
+## Reporting Issues
 
-- Current branch: `main`
-- Legacy: `legacy-v5`
+If you find a security issue, please open a GitHub issue or reach out to me directly through my GitHub profile. If it's something sensitive (like a way to exfiltrate user data), feel free to mark it as a private vulnerability report on GitHub instead of a public issue.
 
-## Reporting a Vulnerability
+Include what you found, how to reproduce it, and which files are involved if you know.
 
-- Email: `security@aria-voice-studio.local`
-- Please include: steps to reproduce, affected files or modules, and any logs that demonstrate the issue.
-- Do not open public issues for security reports.
+## Worth Knowing
 
-We will acknowledge reports within 7 days and provide a remediation ETA after triage.
+This is a client-side PWA — there's no server, no API, no database I control. All user data lives in IndexedDB on the user's own device. That said, XSS in the settings or import flow could still be a problem, so I take input validation seriously.
+
+The current supported version is whatever's on the `master` branch.

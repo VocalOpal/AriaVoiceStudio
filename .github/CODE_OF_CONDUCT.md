@@ -1,15 +1,14 @@
 # Code of Conduct
 
-This project follows these principles:
+This is a voice training tool built by and for the trans community. Everyone's welcome to use it, fork it, learn from it.
 
-- Be respectful and inclusive of all contributors and users.
-- Offer constructive feedback and listen to others.
-- Assume good intent, avoid personal attacks or harassment.
-- Keep discussions on-topic and professional.
+Just be decent to each other. That means:
 
-If you see behavior that violates these guidelines:
+- No harassment, bigotry, or hateful language
+- Respect people's identities and experiences
+- Keep feedback constructive
+- Assume good intent
 
-1. Ask for the behavior to stop.
-2. If it continues, report it to the maintainers at `security@aria-voice-studio.local`.
+This is a one-person project so I don't have a moderation team. If someone's being awful in the issues or discussions, I'll deal with it when I see it. You can also flag it by opening an issue or reaching out on GitHub.
 
-Violations may result in warnings, temporary bans, or permanent removal from the project spaces.
+Don't be a jerk. That's basically it.

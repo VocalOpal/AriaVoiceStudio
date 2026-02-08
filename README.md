@@ -1,200 +1,104 @@
-# Aria Voice Studio PWA 🎤
+# Aria Voice Studio
 
-A personal voice training app I built as a trans person exploring my voice journey. This privacy-first Progressive Web App helps with vocal training through real-time pitch analysis and progress tracking.
+A voice training app I'm building for myself and anyone else who needs it. I'm trans and I wanted something that actually respects my privacy — no accounts, no servers, no data leaving my device. Just open it and train.
 
-## ✨ Features
+It's a PWA so it works offline, installs like a native app, and runs in any modern browser.
 
-### Core Voice Training
-- **Real-time Pitch Analysis**: Advanced autocorrelation-based pitch detection
-- **Vocal Health Monitoring**: Strain detection and break reminders
-- **Progress Tracking**: Sessions, streaks, achievements, and detailed statistics
-- **Customizable Profiles**: Personalized pitch ranges and sensitivity settings
-- **Exercise Library**: Targeted vocal exercises with real-time feedback
+**[Try it live](https://vocalopal.github.io/AriaVoiceStudio/)**
 
-### Technical Implementation
-- **🛡️ Error Boundaries**: Graceful error handling with user-friendly notifications
-- **🧠 Memory Management**: Automatic resource cleanup and leak detection
-- **📊 Performance Monitoring**: Real-time FPS, memory, and processing time tracking
-- **🔄 State Management**: Centralized state with subscription updates
-- **✅ Input Validation**: XSS protection and data sanitization
-- **🎯 Type Safety**: JSDoc annotations for better development experience
+## What It Does
 
-### PWA Features
-- **Offline Support**: Works without internet after first load
-- **Privacy-First**: All data stays on your device (IndexedDB storage)
-- **Responsive Design**: Works seamlessly on desktop and mobile
-- **Installable**: Native app experience on supported devices
+- **Real-time pitch detection** — uses an AudioWorklet for low-latency analysis while you speak or sing
+- **Target range tracking** — set your goal pitch range, see how much time you spend in it
+- **Vocal exercises** — 13 guided exercises across warm-up, pitch training, resonance, speech practice, and cool-down
+- **Voice snapshots** — record short clips over time to hear your own progress
+- **Streak & achievements** — keeps you coming back, shows you how far you've come
+- **Vocal health monitoring** — strain detection, break reminders, hydration nudges
+- **Progress stats** — session history, trends, averages
+- **Profile system** — custom avatar, pitch presets, sensitivity tuning
+- **Data export/import** — your data, your backups, your control
+- **Onboarding** — walks new users through setup instead of just dropping them in
+- **Dark/light theme** — because obviously
 
-## 🚀 Quick Start
+## Privacy
+
+Everything stays on your device. Period.
+
+All data lives in IndexedDB. There's no backend, no analytics, no tracking, no accounts. Your voice data never touches a server. I built this for people like me who don't want some company listening to their voice training sessions.
+
+## Running It Locally
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-username/aria-voice-studio.git
-cd aria-voice-studio
+git clone https://github.com/VocalOpal/AriaVoiceStudio.git
+cd AriaVoiceStudio
 
-# Start the development server
-python -m http.server 5731
+# any local server works
+python -m http.server 8080
 # or
-npx serve . -p 5731
+npx serve .
 ```
 
-Then open: http://localhost:5731
+Open `http://localhost:8080` and allow mic access when prompted.
 
-## 📁 Project Structure
+## Project Structure
 
 ```
-Aria PWA/
-├── index.html              # Main application
-├── manifest.json           # PWA manifest
-├── service-worker.js       # Offline support & caching
-├── js/
-│   ├── app.js              # Orchestration layer (~2.7k lines)
-│   ├── core/               # Core infrastructure
-│   │   ├── events.js       # Event bus system
-│   │   ├── storage.js      # IndexedDB operations
-│   │   └── sessionManager.js
-│   ├── state/              # State management
-│   │   └── stateManager.js # Centralized state
-│   ├── audio/              # Audio processing
-│   │   ├── pitch-processor.js  # AudioWorklet
-│   │   └── index.js
-│   ├── ui/                 # UI modules
-│   │   ├── navigation.js   # Screen navigation & theme
-│   │   └── toast.js        # Notifications
-│   ├── utils/              # Utilities
-│   │   ├── validation.js   # Input validation
-│   │   ├── errorBoundary.js
-│   │   ├── formatters.js
-│   │   ├── memoryManager.js
-│   │   └── performanceMonitor.js
-│   ├── services/           # External services
-│   │   └── serviceWorkerManager.js
-│   └── features/           # Feature modules
-│       └── vocal-exercises/
+├── index.html
+├── service-worker.js
+├── manifest.json
 ├── css/
-│   └── styles.css
-├── icons/
-├── docs/
-└── .github/workflows/
+│   ├── base.css, layout.css, screens.css
+│   ├── journey.css, snapshots.css, sidebar.css
+│   ├── modals.css, exercises.css
+│   └── onboarding.css, tutorial.css
+├── js/
+│   ├── app.js                  # Main orchestration (~1,300 lines)
+│   ├── core/                   # Events, storage, session management
+│   ├── state/                  # Centralized state manager
+│   ├── audio/                  # AudioWorklet pitch detection
+│   ├── ui/                     # Navigation, toast, screen modules
+│   ├── utils/                  # Validation, error boundaries, formatters
+│   ├── services/               # Service worker, settings service
+│   └── features/
+│       ├── achievements/       # Streaks, milestones, badges
+│       ├── modals/             # Streak calendar, help/support
+│       ├── onboarding/         # Setup flow, tutorial
+│       ├── profile/            # Profile modal, avatar manager
+│       ├── progress/           # Stats dashboard
+│       ├── settings/           # Settings UI, data export/import
+│       ├── snapshots/          # Voice recording & playback
+│       ├── vocal-exercises/    # Exercise engine & definitions
+│       └── vocal-health/       # Health monitoring
+└── icons/
 ```
 
-## 🏗️ How I Built It
+## How It Works
 
-### Performance & Memory
-- **UI Throttling**: Limited to 10 updates/second to prevent CPU overload
-- **Memory Monitoring**: Automatic leak detection every 30 seconds
-- **Resource Management**: Systematic cleanup of audio contexts and streams
-- **Performance Observer**: Long task detection and automatic optimization
+The pitch detection runs through an AudioWorklet processor — it does autocorrelation with parabolic interpolation to get sub-sample accuracy. The audio never gets recorded or stored during training, it's just analyzed in real-time and thrown away.
 
-### Error Handling
-- **Error Boundary System**: Catches and handles all async operations gracefully
-- **Safe Wrapper Functions**: All critical operations wrapped with error handling
-- **User Notifications**: Friendly error messages instead of generic alerts
-- **Browser Compatibility**: Graceful fallbacks for unsupported features
+The app uses an event bus for cross-module communication, a state manager for shared state, and a callback pattern for module isolation. Each feature module is self-contained and doesn't import from app.js.
 
-### State Management
-- **Centralized State**: Single source of truth with subscription updates
-- **Middleware Support**: Performance tracking and validation hooks
-- **Atomic Updates**: Prevents race conditions and inconsistent state
-- **Cleanup Tasks**: Automatic subscription management
+There's error boundaries on all async ops, input validation on forms, focus trapping on modals for accessibility, and a memory leak detector that runs in dev mode.
 
-### Security & Validation
-- **Input Sanitization**: XSS protection and HTML filtering
-- **Form Validation**: Comprehensive validation with detailed error reporting
-- **File Security**: Size and type checking for data imports
-- **Type Safety**: JSDoc annotations with runtime checking in development
+## Browser Support
 
-## 🎯 What I've Implemented
+Works in Chrome, Edge, Firefox, and Safari (iOS 14.5+). You need a browser that supports AudioWorklet and getUserMedia. Mobile works fine — the whole thing is responsive.
 
-### Memory Management
-- ✅ Automatic resource cleanup for audio contexts and media streams
-- ✅ Event listener management with automatic disposal
-- ✅ Memory leak detection and prevention
-- ✅ Resource size tracking and statistics
+## Installing
 
-### Performance
-- ✅ Real-time FPS monitoring (target: 60fps, minimum: 30fps)
-- ✅ Memory usage tracking (alerts at 50MB+)
-- ✅ Audio processing time monitoring (max: 10ms)
-- ✅ Automatic performance optimizations
+It's a PWA, so you can install it:
+1. Open it in your browser
+2. Hit the install button in the address bar
+3. Done — works offline after that
 
-### Error Handling
-- ✅ Comprehensive error boundaries for all async operations
-- ✅ User-friendly error notifications
-- ✅ Browser compatibility checks
-- ✅ Graceful degradation for unsupported features
+## Contributing
 
-### Code Quality
-- ✅ 3,500+ lines of well-documented JavaScript
-- ✅ Comprehensive JSDoc type annotations
-- ✅ Modular architecture with clear separation of concerns
-- ✅ Robust error handling and logging
+This is a personal project but I'm open to feedback, bug reports, and feature ideas. Feel free to open an issue.
 
-## 🛠️ Development
+## License
 
-### Getting Started
-- Modern web browser with Web Audio API support
-- Local development server (Python, Node.js, or similar)
-
-### Development Tools I Built In
-- **Runtime Type Checking**: Enabled in localhost development
-- **Performance Monitoring**: Real-time metrics and health reporting
-- **Memory Statistics**: Detailed resource usage tracking
-- **Error Logging**: Comprehensive error reporting in console
-
-### My Approach
-- Modular ES6+ JavaScript with comprehensive JSDoc documentation
-- Event-driven architecture with centralized state management
-- Performance-first design with automatic optimizations
-- Security-focused with input validation and sanitization
-
-## 📊 Performance Metrics
-
-The application includes built-in performance monitoring:
-
-- **Target FPS**: 60fps (minimum: 30fps)
-- **Memory Threshold**: 100MB (alerts at 50MB)
-- **UI Update Limit**: 10 updates/second
-- **Audio Processing**: <10ms per buffer
-- **Memory Leak Detection**: Every 30 seconds
-
-## 🔒 Privacy & Security
-
-- **Local Storage**: All data stored locally using IndexedDB
-- **No Tracking**: No analytics or third-party tracking
-- **Input Validation**: Comprehensive sanitization prevents XSS attacks
-- **File Security**: Size limits and type checking for imports
-- **Privacy-First**: Voice data never leaves your device
-
-## 🌐 Browser Support
-
-- **Chrome/Edge**: Full support with all features
-- **Firefox**: Full support (may require microphone permission)
-- **Safari**: Full support (iOS 14.5+, macOS 11+)
-- **Mobile**: Responsive design works on all modern mobile browsers
-
-## 📱 Installing the App
-
-1. Open the app in a supported browser
-2. Click the install icon in the address bar
-3. Follow the installation prompts
-4. App will be available offline with full functionality
-
-## 🤝 Contributing
-
-As a personal project, I'm not currently accepting contributions, but I'm happy to receive feedback and suggestions!
-
-## 📄 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Web Audio API for real-time audio processing
-- IndexedDB for local data persistence
-- Progressive Web App standards for offline functionality
-- Open source community for inspiration and tools
+MIT — do whatever you want with it.
 
 ---
 
-**Built with ❤️ for voice training and vocal health**
+Built for the voice training community. Stay hydrated. 💙🩷🤍🩷💙
