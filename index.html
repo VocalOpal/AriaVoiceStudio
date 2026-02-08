@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#5bcefa">
+    <meta name="description" content="Privacy-first voice training PWA">
+    <link rel="icon" type="image/svg+xml" href="icons/icon-192.svg">
+    <link rel="apple-touch-icon" href="icons/icon-192.svg">
+    <link rel="manifest" href="manifest.json">
+    <title>Aria Voice Studio</title>
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/screens.css">
+    <link rel="stylesheet" href="css/journey.css">
+    <link rel="stylesheet" href="css/snapshots.css">
+    <link rel="stylesheet" href="css/sidebar.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/exercises.css">
+    <link rel="stylesheet" href="css/onboarding.css">
+    <link rel="stylesheet" href="css/tutorial.css">
+</head>
+<body class="dark">
+    <!-- Skip to main content link (accessibility) -->
+    <a href="#mainContent" class="skip-link">Skip to main content</a>
+
+    <!-- Onboarding (rendered dynamically by js/features/onboarding/) -->
+    <div class="onboarding-overlay hidden" id="onboardingOverlay"></div>
+    
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar" role="complementary" aria-label="App sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                    </div>
+                    <div class="logo-text">
+                        <h1>Aria</h1>
+                        <span>Voice Studio</span>
+                    </div>
+                </div>
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle theme">
+                    <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                    <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+                </button>
+            </div>
+            
+            <nav class="sidebar-nav" role="navigation" aria-label="Main navigation">
+                <button class="nav-item active" data-screen="training">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                    <span>Live Training</span>
+                </button>
+                <button class="nav-item" data-screen="exercises">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+                    <span>Voice Exercises</span>
+                </button>
+                <button class="nav-item" data-screen="progress">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>
+                    <span>Progress</span>
+                </button>
+                <button class="nav-item" data-screen="snapshots">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                    <span>Snapshots</span>
+                </button>
+                <button class="nav-item" data-screen="health">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    <span>Vocal Health</span>
+                </button>
+                <button class="nav-item" data-screen="journey">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+                    <span>Journey</span>
+                </button>
+                <button class="nav-item" data-screen="settings">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg>
+                    <span>Settings</span>
+                </button>
+            </nav>
+            
+            <div class="sidebar-footer">
+                        <button class="streak-card" id="streakCardBtn">
+                    <div class="streak-header">
+                        <span class="streak-label">Daily Streak</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                    </div>
+                    <p class="streak-value" id="streakValue">0</p>
+                    <span class="streak-hint">Click to view details</span>
+                </button>
+                
+                        <button class="profile-card" id="profileCardBtn">
+                    <div class="profile-header">
+                        <span class="profile-label">Voice Profile</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                    <div class="profile-info">
+                        <div class="profile-avatar" id="profileAvatar">U</div>
+                        <div class="profile-details">
+                            <p class="profile-name" id="sidebarProfileName">User</p>
+                            <p class="profile-pronouns" id="sidebarPronouns">they/them</p>
+                        </div>
+                    </div>
+                    <div class="profile-stats">
+                        <div class="profile-stat">
+                            <span class="stat-title">Target</span>
+                            <span class="stat-data" id="sidebarTarget">140-200 Hz</span>
+                        </div>
+                        <div class="profile-stat">
+                            <span class="stat-title">Progress</span>
+                            <span class="stat-data trend-up" id="sidebarProgress">+0 Hz</span>
+                        </div>
+                    </div>
+                </button>
+                
+                        <div class="support-card">
+                    <div class="support-header">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M17 8h1a4 4 0 1 1 0 8h-1"/><path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z"/><line x1="6" x2="6" y1="2" y2="4"/><line x1="10" x2="10" y1="2" y2="4"/><line x1="14" x2="14" y1="2" y2="4"/></svg>
+                        <span>Support Aria</span>
+                    </div>
+                    <p class="support-text">Help support development!</p>
+                    <div class="support-buttons">
+                        <a href="#" class="donate-btn">Donate</a>
+                        <button class="sparkle-btn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                        </button>
+                    </div>
+                </div>
+                
+                        <div class="help-hint">
+                    Need help? Press <kbd>?</kbd>
+                </div>
+            </div>
+        </aside>
+        
+        <main class="main-content" id="mainContent" role="main">
+            <div class="screen active" id="screen-training">
+                <!-- Exercise Mode Panel (hidden by default) -->
+                <div class="exercise-mode-panel glass-card hidden" id="exerciseModePanel">
+                    <div class="exercise-mode-header">
+                        <button class="btn btn-ghost btn-sm" id="exitExerciseBtn" title="Back to Exercises">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m15 18-6-6 6-6"/></svg>
+                            Back
+                        </button>
+                        <div class="exercise-mode-badge">
+                            <span class="exercise-badge-icon">🎯</span>
+                            Exercise Mode
+                        </div>
+                    </div>
+                    <div class="exercise-mode-content">
+                        <div class="exercise-info">
+                            <h3 id="exerciseTitle">Exercise Name</h3>
+                            <p id="exerciseDescription">Exercise description will appear here</p>
+                        </div>
+                        <div class="exercise-instructions">
+                            <div class="instruction-step">
+                                <span class="step-num">1</span>
+                                <span id="exerciseStep1">Follow the target pitch shown</span>
+                            </div>
+                            <div class="instruction-step">
+                                <span class="step-num">2</span>
+                                <span id="exerciseStep2">Keep your voice steady</span>
+                            </div>
+                            <div class="instruction-step">
+                                <span class="step-num">3</span>
+                                <span id="exerciseStep3">Complete the duration goal</span>
+                            </div>
+                        </div>
+                        <div class="exercise-targets">
+                            <div class="exercise-target">
+                                <span class="target-label">Target Range</span>
+                                <span class="target-value" id="exerciseTargetRange">-- Hz</span>
+                            </div>
+                            <div class="exercise-target">
+                                <span class="target-label">Duration</span>
+                                <span class="target-value" id="exerciseDuration">--</span>
+                            </div>
+                            <div class="exercise-target">
+                                <span class="target-label">Difficulty</span>
+                                <span class="target-value" id="exerciseDifficulty">--</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="exercise-progress-bar">
+                        <div class="exercise-progress-fill" id="exerciseProgressFill"></div>
+                    </div>
+                </div>
+                
+                <div class="training-header glass-card">
+                    <div class="training-status">
+                        <div class="status-icon" id="statusIcon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                        </div>
+                        <div class="status-text">
+                            <h2 id="trainingTitle">Ready to Train</h2>
+                            <p id="trainingSubtitle">Start a session to begin</p>
+                        </div>
+                    </div>
+                    <button class="btn btn-danger hidden" id="stopRestBtn">
+                        <span class="pulse-dot"></span>
+                        STOP REST
+                    </button>
+                </div>
+                
+                <div class="pitch-display glass-card">
+                    <div class="pitch-visualizer" id="pitchVisualizer">
+                        <canvas id="pitchCanvas" width="800" height="200" role="img" aria-label="Pitch visualization graph showing your voice frequency over time"></canvas>
+                        <!-- Screen reader live region for pitch updates -->
+                        <div id="pitchLiveRegion" class="sr-only" role="status" aria-live="polite" aria-atomic="true">
+                            Pitch display ready. Start training to see your voice data.
+                        </div>
+                        <div class="pitch-value">
+                            <span id="currentPitch" aria-label="Current pitch">--</span>
+                            <span class="pitch-unit">Hz</span>
+                        </div>
+                        <div class="target-range">
+                            <span>Target: <span id="targetRange">140-200 Hz</span></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="stats-bar glass-card hidden" id="statsBar">
+                    <div class="stat">
+                        <span class="stat-label">Average</span>
+                        <span class="stat-value" id="avgPitch">-- Hz</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Lowest</span>
+                        <span class="stat-value blue" id="minPitch">-- Hz</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Highest</span>
+                        <span class="stat-value pink" id="maxPitch">-- Hz</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Stability</span>
+                        <span class="stat-value" id="stability">--%</span>
+                    </div>
+                </div>
+                
+                <div class="cards-grid">
+                    <div class="glass-card">
+                        <h3>Session Stats</h3>
+                        <div class="big-stat">
+                            <span id="livePitch">--</span>
+                            <span class="unit">Hz</span>
+                        </div>
+                        <div class="stat-rows">
+                            <div class="stat-row">
+                                <span>Duration</span>
+                                <span id="duration">00:00:00</span>
+                            </div>
+                            <div class="stat-row">
+                                <span>Samples</span>
+                                <span id="sampleCount">0</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h3>Safety Monitor</h3>
+                        <div class="safety-status" id="safetyStatus">
+                            <svg class="safety-icon ok" xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            <p class="safety-text">No strain detected</p>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card">
+                        <h3>Your Goal</h3>
+                        <div class="goal-display">
+                            <div class="circular-progress" id="goalProgress">
+                                <svg viewBox="0 0 100 100">
+                                    <circle class="bg" cx="50" cy="50" r="45"/>
+                                    <circle class="progress" cx="50" cy="50" r="45" stroke-dasharray="283" stroke-dashoffset="283"/>
+                                    <text x="50" y="50" text-anchor="middle" dy="0.3em" class="progress-text">0%</text>
+                                </svg>
+                            </div>
+                            <p class="goal-label">Time in range</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="btn btn-outline" id="snapshotBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                        Record Snapshot
+                    </button>
+                    <button class="btn btn-primary" id="startTrainingBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Start Training
+                    </button>
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-exercises">
+                <div class="screen-header">
+                    <div>
+                        <h1>Voice Exercises</h1>
+                        <p class="subtitle">Structured exercises to develop your voice</p>
+                    </div>
+                    <button class="btn btn-primary">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Start Session
+                    </button>
+                </div>
+                
+                <div class="exercise-list" id="exerciseList">
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-progress">
+                <div class="screen-header">
+                    <div>
+                        <h1>Progress & Statistics</h1>
+                        <p class="subtitle">Track your voice training journey</p>
+                    </div>
+                </div>
+                <div id="progressContent">
+                    <!-- Rendered dynamically by progressStats.js -->
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-snapshots">
+                <div class="screen-header">
+                    <div>
+                        <h1>Voice Snapshots</h1>
+                        <p class="subtitle">Record and compare your voice over time</p>
+                    </div>
+                    <button class="btn btn-primary" id="newSnapshotBtn">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+                        New Snapshot
+                    </button>
+                </div>
+                <div id="snapshotContent">
+                    <!-- Rendered dynamically by snapshotManager.js -->
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-health">
+                <div class="screen-header">
+                    <div>
+                        <h1>Vocal Health</h1>
+                        <p class="subtitle">Monitor and maintain your vocal wellness</p>
+                    </div>
+                </div>
+                <div id="healthContent">
+                    <!-- Rendered dynamically by vocalHealth.js -->
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-journey">
+                <div class="screen-header">
+                    <div>
+                        <h1>Voice Journey</h1>
+                        <p class="subtitle">Your progress, goals, and achievements</p>
+                    </div>
+                </div>
+
+                <!-- Streak & Stats Hero -->
+                <div class="journey-hero glass-card" id="journeyHero">
+                    <div class="journey-streak-ring" id="journeyStreakRing">
+                        <svg viewBox="0 0 120 120" class="streak-ring-svg">
+                            <circle class="streak-ring-bg" cx="60" cy="60" r="52" />
+                            <circle class="streak-ring-progress" cx="60" cy="60" r="52"
+                                stroke-dasharray="327" stroke-dashoffset="327" id="streakRingCircle" />
+                        </svg>
+                        <div class="streak-ring-content">
+                            <span class="streak-ring-number" id="journeyStreakNumber">0</span>
+                            <span class="streak-ring-label">day streak</span>
+                        </div>
+                    </div>
+                    <div class="journey-stats-row" id="journeyStatsRow">
+                        <div class="journey-stat">
+                            <span class="journey-stat-value" id="journeyTotalSessions">0</span>
+                            <span class="journey-stat-label">Sessions</span>
+                        </div>
+                        <div class="journey-stat">
+                            <span class="journey-stat-value" id="journeyPracticeTime">0h</span>
+                            <span class="journey-stat-label">Practice</span>
+                        </div>
+                        <div class="journey-stat">
+                            <span class="journey-stat-value" id="journeyUnlocked">0</span>
+                            <span class="journey-stat-label">Unlocked</span>
+                        </div>
+                        <div class="journey-stat">
+                            <span class="journey-stat-value" id="journeyLongestStreak">0</span>
+                            <span class="journey-stat-label">Best Streak</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Achievements -->
+                <div class="glass-card journey-section">
+                    <div class="journey-section-header">
+                        <h3>Achievements</h3>
+                        <span class="journey-badge-count" id="achievementCounter">0 / 0</span>
+                    </div>
+                    <div class="journey-progress-bar">
+                        <div class="journey-progress-fill" id="achievementProgressBar" style="width: 0%"></div>
+                    </div>
+                    <div class="achievements-grid" id="achievementsGrid">
+                        <!-- Achievements loaded dynamically -->
+                    </div>
+                </div>
+
+                <!-- Milestones Timeline -->
+                <div class="glass-card timeline-card journey-section">
+                    <div class="journey-section-header">
+                        <h3>Milestones</h3>
+                    </div>
+                    <div class="timeline" id="journeyTimeline">
+                        <div class="timeline-line"></div>
+                    </div>
+                    <p class="empty-state" id="noMilestones">Complete sessions to unlock milestones!</p>
+                </div>
+            </div>
+            
+            <div class="screen" id="screen-settings">
+                <div class="screen-header">
+                    <div>
+                        <h1>Settings</h1>
+                        <p class="subtitle">Customize your voice training experience</p>
+                    </div>
+                </div>
+                
+                <div class="settings-sections">
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <h3>Profile</h3>
+                        </div>
+                        <div class="setting-row">
+                            <label>Display Name</label>
+                            <input type="text" id="profileName" value="User" class="setting-input">
+                        </div>
+                        <div class="setting-row">
+                            <label>Gender Identity</label>
+                            <div class="select-with-custom">
+                                <select id="genderIdentity" class="setting-select">
+                                    <option value="woman">Woman</option>
+                                    <option value="man">Man</option>
+                                    <option value="non-binary">Non-binary</option>
+                                    <option value="genderfluid">Genderfluid</option>
+                                    <option value="agender">Agender</option>
+                                    <option value="prefer-not">Prefer not to say</option>
+                                    <option value="custom">Custom...</option>
+                                </select>
+                                <input type="text" id="genderIdentityCustom" class="setting-input custom-input hidden" placeholder="Enter your gender identity">
+                            </div>
+                        </div>
+                        <div class="setting-row">
+                            <label>Pronouns</label>
+                            <div class="select-with-custom">
+                                <select id="pronouns" class="setting-select">
+                                    <option value="she/her">she/her</option>
+                                    <option value="he/him">he/him</option>
+                                    <option value="they/them">they/them</option>
+                                    <option value="she/they">she/they</option>
+                                    <option value="he/they">he/they</option>
+                                    <option value="any">any pronouns</option>
+                                    <option value="custom">Custom...</option>
+                                </select>
+                                <input type="text" id="pronounsCustom" class="setting-input custom-input hidden" placeholder="Enter your pronouns">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                            <h3>Voice Target</h3>
+                        </div>
+                        
+                        <!-- Visual Range Selector -->
+                        <div class="voice-range-viz">
+                            <label>Target Pitch Range</label>
+                            <div class="range-gradient" id="rangeGradient">
+                                <div class="range-selection" id="rangeSelection"></div>
+                            </div>
+                            <div class="range-labels">
+                                <span>80 Hz</span>
+                                <span class="label-lower">Lower</span>
+                                <span>Mid</span>
+                                <span class="label-higher">Higher</span>
+                                <span>300 Hz</span>
+                            </div>
+                            <div class="range-inputs-row">
+                                <div class="range-input-group">
+                                    <label>Min (Hz)</label>
+                                    <input type="number" id="targetMin" value="140" min="80" max="290" class="setting-input small">
+                                </div>
+                                <div class="range-input-group">
+                                    <label>Max (Hz)</label>
+                                    <input type="number" id="targetMax" value="200" min="90" max="300" class="setting-input small">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Quick Presets -->
+                        <div class="preset-section">
+                            <label>Quick Presets</label>
+                            <div class="preset-buttons">
+                                <button class="preset-btn preset-blue" data-min="85" data-max="165">Lower (85-165 Hz)</button>
+                                <button class="preset-btn preset-neutral" data-min="145" data-max="185">Mid (145-185 Hz)</button>
+                                <button class="preset-btn preset-pink" data-min="165" data-max="255">Higher (165-255 Hz)</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                            <h3>Appearance</h3>
+                        </div>
+                        <div class="setting-row">
+                            <label>Theme</label>
+                            <div class="toggle-group">
+                                <button class="toggle-btn active" data-theme="dark">Dark</button>
+                                <button class="toggle-btn" data-theme="light">Light</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                            <h3>Custom CSS</h3>
+                        </div>
+                        <p class="section-desc">Add your own custom CSS to personalize Aria. Changes apply instantly to both light and dark themes.</p>
+                        
+                        <div class="css-editor-container">
+                            <div class="css-editor-header">
+                                <label>Custom CSS Rules</label>
+                                <div class="css-editor-actions">
+                                    <button class="btn btn-secondary btn-sm" id="clearCssBtn">Clear</button>
+                                    <button class="btn btn-primary btn-sm" id="saveCssBtn">Save</button>
+                                </div>
+                            </div>
+                            <textarea id="customCssInput" class="css-editor" placeholder="/* Add your custom CSS here */
+:root {
+    --trans-blue: #your-color;
+    --trans-pink: #your-color;
+}
+
+/* Example: Change card background */
+.glass-card {
+    background: your-color;
+}
+
+/* Example: Custom button styles */
+.btn-primary {
+    background: your-gradient;
+}"></textarea>
+                            <div class="css-status" id="cssStatus">
+                                <span class="status-indicator" id="cssStatusIndicator"></span>
+                                <span class="status-text" id="cssStatusText">Ready</span>
+                            </div>
+                        </div>
+                        
+                        <div class="css-examples">
+                            <h4>Quick Examples:</h4>
+                            <div class="example-buttons">
+                                <button class="example-btn" data-css="/* Ocean Theme */
+:root {
+    --trans-blue: #0077BE;
+    --trans-pink: #00A8E8;
+}
+.dark {
+    --trans-blue: #00A8E8;
+    --trans-pink: #0077BE;
+}">Ocean Theme</button>
+                                <button class="example-btn" data-css="/* Sunset Theme */
+:root {
+    --trans-blue: #FF6B35;
+    --trans-pink: #F7931E;
+}
+.dark {
+    --trans-blue: #F7931E;
+    --trans-pink: #FF6B35;
+}">Sunset Theme</button>
+                                <button class="example-btn" data-css="/* Forest Theme */
+:root {
+    --trans-blue: #2D5016;
+    --trans-pink: #5A7C3A;
+}
+.dark {
+    --trans-blue: #5A7C3A;
+    --trans-pink: #2D5016;
+}">Forest Theme</button>
+                                <button class="example-btn" data-css="/* Purple Theme */
+:root {
+    --trans-blue: #4A148C;
+    --trans-pink: #7B1FA2;
+}
+.dark {
+    --trans-blue: #7B1FA2;
+    --trans-pink: #4A148C;
+}">Purple Theme</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            <h3>Notifications</h3>
+                        </div>
+                        <div class="setting-row">
+                            <label>Daily Reminders</label>
+                            <label class="switch">
+                                <input type="checkbox" id="dailyReminders" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <label>Strain Alerts</label>
+                            <label class="switch">
+                                <input type="checkbox" id="strainAlerts" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                            <h3>Pitch Alert</h3>
+                        </div>
+                        <p class="section-desc">Get an audio reminder when your pitch stays below your target range.</p>
+                        <div class="setting-row">
+                            <label>Enable Pitch Alert</label>
+                            <label class="switch">
+                                <input type="checkbox" id="pitchAlertEnabled" checked>
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+                        <div class="setting-row">
+                            <label>Alert Delay (seconds)</label>
+                            <input type="number" id="pitchAlertDelay" min="1" max="30" value="5" class="input-field small-input">
+                        </div>
+                        <div class="setting-row">
+                            <label>Alert Volume</label>
+                            <div class="slider-container">
+                                <input type="range" id="pitchAlertVolume" min="0" max="100" value="50" class="range-slider">
+                                <span id="pitchAlertVolumeValue">50%</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-secondary" id="testPitchAlertBtn">Test Alert Sound</button>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            <h3>Data Management</h3>
+                        </div>
+                        <p class="section-desc">Your data is stored locally. Export to backup or transfer to another device.</p>
+                        <div class="data-buttons">
+                            <button class="btn btn-secondary" id="exportDataBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                Export Data
+                            </button>
+                            <button class="btn btn-secondary" id="importDataBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                Import Data
+                            </button>
+                            <input type="file" id="importFileInput" accept=".json" class="hidden">
+                        </div>
+                        <div class="import-status hidden" id="importStatus"></div>
+                    </div>
+                    
+                    <div class="glass-card settings-section">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                            <h3>App Updates</h3>
+                        </div>
+                        <p class="section-desc">Check for and install new versions of Aria without clearing your data.</p>
+                        <div class="data-buttons">
+                            <button class="btn btn-secondary" id="checkUpdateBtn">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                                Check for Updates
+                            </button>
+                        </div>
+                        <div class="update-status hidden" id="updateStatus"></div>
+                    </div>
+
+                    <div class="glass-card settings-section danger-zone">
+                        <div class="section-header">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            <h3>Danger Zone</h3>
+                        </div>
+                        <p class="section-desc">Irreversible actions - use with caution</p>
+                        <button class="btn btn-danger" id="clearAllDataBtn">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            Clear All Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <div class="modal-overlay hidden" id="snapshotModal" role="dialog" aria-modal="true" aria-labelledby="snapshotModalTitle">
+        <div class="modal-content">
+            <button class="modal-close" id="closeSnapshotModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            
+            <div class="modal-header">
+                <div class="modal-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg>
+                </div>
+                <h2 id="snapshotModalTitle">Record Voice Snapshot</h2>
+                <p>Capture your voice to track progress over time</p>
+            </div>
+            
+            <div class="snapshot-waveform" id="snapshotWaveform">
+                <div class="waveform-bars" id="waveformBars"></div>
+                <div class="waveform-time" id="waveformTime">0:00</div>
+            </div>
+            
+            <div class="snapshot-stats" id="snapshotRecordingStats">
+                <div class="snapshot-stat">
+                    <span class="stat-label">Avg Pitch</span>
+                    <span class="stat-value" id="snapAvgPitch">-- Hz</span>
+                </div>
+                <div class="snapshot-stat">
+                    <span class="stat-label">Stability</span>
+                    <span class="stat-value" id="snapStability">--%</span>
+                </div>
+                <div class="snapshot-stat">
+                    <span class="stat-label">Range</span>
+                    <span class="stat-value" id="snapRange">-- Hz</span>
+                </div>
+            </div>
+            
+            <div class="snapshot-name-input">
+                <label>Snapshot Name</label>
+                <input type="text" id="snapshotName" placeholder="e.g., Week 4 Progress" class="setting-input">
+            </div>
+            
+            <div class="modal-actions">
+                <button class="btn btn-secondary" id="cancelSnapshot">Cancel</button>
+                <button class="btn btn-record" id="startRecordingBtn">
+                    <span class="record-dot"></span>
+                    Start Recording
+                </button>
+                <button class="btn btn-primary hidden" id="saveSnapshotBtn">Save Snapshot</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay hidden" id="streakModal" role="dialog" aria-modal="true" aria-labelledby="streakModalTitle">
+        <div class="modal-content modal-sm">
+            <button class="modal-close" id="closeStreakModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            
+            <div class="modal-header">
+                <div class="modal-icon gradient">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                </div>
+                <h2 id="streakModalTitle">Daily Streak</h2>
+                <p>Keep the momentum going!</p>
+            </div>
+            
+            <div class="streak-stats-grid">
+                <div class="streak-stat-box">
+                    <span class="streak-stat-value" id="modalCurrentStreak">0</span>
+                    <span class="streak-stat-label">Current</span>
+                </div>
+                <div class="streak-stat-box">
+                    <span class="streak-stat-value" id="modalLongestStreak">0</span>
+                    <span class="streak-stat-label">Longest</span>
+                </div>
+                <div class="streak-stat-box">
+                    <span class="streak-stat-value" id="modalTotalDays">0</span>
+                    <span class="streak-stat-label">Total Days</span>
+                </div>
+                <div class="streak-stat-box">
+                    <span class="streak-stat-value" id="modalConsistency">0%</span>
+                    <span class="streak-stat-label">Consistency</span>
+                </div>
+            </div>
+            
+            <div class="streak-calendar" id="streakCalendar">
+                <!-- Calendar will be generated by JS -->
+            </div>
+            
+            <button class="btn btn-primary btn-full" id="closeStreakBtn">Keep Going!</button>
+        </div>
+    </div>
+    
+    <!-- Voice Profile Modal -->
+    <div class="modal-overlay hidden" id="profileModal" role="dialog" aria-modal="true" aria-label="Voice profile settings">
+        <div class="modal-content modal-lg">
+            <button class="modal-close" id="closeProfileModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            
+            <!-- Tabs -->
+            <div class="profile-tabs">
+                <button class="profile-tab active" data-tab="personal">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    Personal Info
+                </button>
+                <button class="profile-tab" data-tab="voice">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                    Voice Settings
+                </button>
+                <button class="profile-tab" data-tab="audio">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>
+                    Audio Settings
+                </button>
+            </div>
+            
+            <!-- Personal Info Tab -->
+            <div class="profile-tab-content active" id="tab-personal">
+                <div class="profile-avatar-section">
+                    <div class="profile-avatar-large" id="modalProfileAvatar">U</div>
+                    <button class="avatar-edit-btn" id="avatarEditBtn" title="Upload profile picture">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/><circle cx="12" cy="13" r="4"/></svg>
+                    </button>
+                    <input type="file" id="avatarFileInput" accept="image/*" hidden>
+                </div>
+                
+                <div class="profile-form">
+                    <div class="form-group">
+                        <label>Name</label>
+                        <input type="text" id="modalProfileName" class="setting-input" placeholder="Your name">
+                    </div>
+                    <div class="form-group">
+                        <label>Gender Identity</label>
+                        <select id="modalGenderIdentity" class="setting-select">
+                            <option value="woman">Woman</option>
+                            <option value="man">Man</option>
+                            <option value="non-binary">Non-binary</option>
+                            <option value="genderfluid">Genderfluid</option>
+                            <option value="agender">Agender</option>
+                            <option value="prefer-not">Prefer not to say</option>
+                            <option value="custom">Custom...</option>
+                        </select>
+                        <input type="text" id="modalGenderIdentityCustom" class="setting-input custom-input hidden" placeholder="Enter your gender identity">
+                    </div>
+                    <div class="form-group">
+                        <label>Pronouns</label>
+                        <select id="modalPronouns" class="setting-select">
+                            <option value="she/her">she/her</option>
+                            <option value="he/him">he/him</option>
+                            <option value="they/them">they/them</option>
+                            <option value="she/they">she/they</option>
+                            <option value="he/they">he/they</option>
+                            <option value="any">any pronouns</option>
+                            <option value="custom">Custom...</option>
+                        </select>
+                        <input type="text" id="modalPronounsCustom" class="setting-input custom-input hidden" placeholder="Enter your pronouns">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Voice Settings Tab -->
+            <div class="profile-tab-content" id="tab-voice">
+                <div class="form-group">
+                    <label>Target Pitch Range</label>
+                    <div class="pitch-presets">
+                        <button class="pitch-preset" data-min="85" data-max="165">Lower Range</button>
+                        <button class="pitch-preset" data-min="145" data-max="185">Mid Range</button>
+                        <button class="pitch-preset" data-min="165" data-max="255">Higher Range</button>
+                        <button class="pitch-preset active" data-min="0" data-max="0">Custom</button>
+                    </div>
+                    <div class="pitch-range-display">
+                        <div class="pitch-range-bar" id="modalPitchRangeBar">
+                            <div class="pitch-range-indicator" id="modalPitchIndicator"></div>
+                        </div>
+                        <div class="pitch-range-labels">
+                            <span>60 Hz</span>
+                            <span class="pitch-range-value" id="modalPitchValue">140 - 200 Hz</span>
+                            <span>280 Hz</span>
+                        </div>
+                    </div>
+                    <div class="pitch-inputs">
+                        <div class="form-group">
+                            <label>Min (Hz)</label>
+                            <input type="number" id="modalTargetMin" class="setting-input small" value="140" min="60" max="270">
+                        </div>
+                        <div class="form-group">
+                            <label>Max (Hz)</label>
+                            <input type="number" id="modalTargetMax" class="setting-input small" value="200" min="70" max="280">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Training Intensity <span style="font-weight: normal; color: var(--muted); font-size: 12px;">(affects exercise difficulty)</span></label>
+                    <div class="intensity-options">
+                        <label class="intensity-option" title="Longer rest periods, simpler exercises">
+                            <input type="radio" name="intensity" value="beginner">
+                            <span>Beginner</span>
+                        </label>
+                        <label class="intensity-option active" title="Balanced difficulty and rest">
+                            <input type="radio" name="intensity" value="intermediate" checked>
+                            <span>Intermediate</span>
+                        </label>
+                        <label class="intensity-option" title="Shorter rests, higher targets">
+                            <input type="radio" name="intensity" value="advanced">
+                            <span>Advanced</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Session Duration</label>
+                    <div class="duration-options">
+                        <label class="duration-option">
+                            <input type="radio" name="sessionDuration" value="5">
+                            <span>5 min</span>
+                        </label>
+                        <label class="duration-option active">
+                            <input type="radio" name="sessionDuration" value="15" checked>
+                            <span>15 min</span>
+                        </label>
+                        <label class="duration-option">
+                            <input type="radio" name="sessionDuration" value="30">
+                            <span>30 min</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Audio Settings Tab -->
+            <div class="profile-tab-content" id="tab-audio">
+                <div class="form-group">
+                    <label>Input Sensitivity: <span id="sensitivityValue">75%</span></label>
+                    <p style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Adjust how sensitive the pitch detection is to your voice</p>
+                    <input type="range" id="modalSensitivity" class="sensitivity-slider" min="0" max="100" value="75">
+                    <div class="sensitivity-meter" id="sensitivityMeter">
+                        <!-- Bars generated by JS -->
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Audio Quality</label>
+                    <p style="font-size: 12px; color: var(--muted); margin-bottom: 8px;">Higher quality uses more processing power</p>
+                    <select id="modalAudioQuality" class="setting-select">
+                        <option value="low">Low (less CPU)</option>
+                        <option value="medium">Medium</option>
+                        <option value="high" selected>High (recommended)</option>
+                        <option value="maximum">Maximum (may lag)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <p style="font-size: 13px; color: var(--muted); background: var(--sidebar-accent); padding: 12px; border-radius: 8px;">
+                        <strong>💡 Tip:</strong> Your browser will ask for microphone permission when you start training. Make sure to allow access for the app to work.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <div class="modal-footer">
+                <button class="btn btn-secondary" id="cancelProfileBtn">Cancel</button>
+                <span class="save-indicator hidden" id="saveIndicator">Settings saved</span>
+                <button class="btn btn-gradient" id="saveProfileBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+    
+    <div class="modal-overlay hidden" id="helpModal" role="dialog" aria-modal="true" aria-label="Help and support">
+        <div class="modal-content modal-lg">
+            <button class="modal-close" id="closeHelpModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+            
+            <!-- Tabs -->
+            <div class="help-tabs">
+                <button class="help-tab active" data-tab="help">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                    Help
+                </button>
+                <button class="help-tab" data-tab="support">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+                    Support
+                </button>
+                <button class="help-tab" data-tab="feedback">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+                    Feedback
+                </button>
+            </div>
+            
+            <div class="help-content active" id="help-help">
+                <h3>Keyboard Shortcuts</h3>
+                <div class="shortcut-list">
+                    <div class="shortcut-item"><kbd>?</kbd> <span>Open this help</span></div>
+                    <div class="shortcut-item"><kbd>Esc</kbd> <span>Close modals / stop training</span></div>
+                    <div class="shortcut-item"><kbd>Space</kbd> <span>Start/pause training</span></div>
+                    <div class="shortcut-item"><kbd>R</kbd> <span>Reset training session</span></div>
+                    <div class="shortcut-item"><kbd>Tab</kbd> <span>Navigate between controls</span></div>
+                </div>
+                
+                <h3>Quick Tips</h3>
+                <ul class="tips-list">
+                    <li>Click the Voice Profile card in the sidebar to customize your settings</li>
+                    <li>Use the Daily Streak card to track your consistency</li>
+                    <li>Take regular breaks to avoid vocal strain</li>
+                    <li>All your data stays on your device - no cloud sync</li>
+                </ul>
+
+                <h3>Guided Tour</h3>
+                <p style="color: var(--muted); font-size: 14px; margin-bottom: 12px;">New here or need a refresher?</p>
+                <button class="btn btn-secondary" id="replayTutorialBtn" style="width: 100%;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 8px; vertical-align: middle;"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></svg>
+                    Replay Tutorial
+                </button>
+            </div>
+            
+            <div class="help-content" id="help-support">
+                <div class="support-hero">
+                    <span class="support-emoji">💜</span>
+                    <h3>Support Aria Development</h3>
+                    <p>Aria is free and open source. Your support helps keep it that way!</p>
+                </div>
+                
+                <div class="support-options">
+                    <a href="https://ko-fi.com/hopefulopal" target="_blank" class="support-option">
+                        <span class="option-icon">☕</span>
+                        <span class="option-text">Buy me a coffee</span>
+                    </a>
+                    <a href="https://discord.gg/qPueSBm8dG" target="_blank" class="support-option">
+                        <span class="option-icon">�</span>
+                        <span class="option-text">Join Discord</span>
+                    </a>
+                    <a href="https://github.com/VocalOpal/Aria" target="_blank" class="support-option">
+                        <span class="option-icon">⭐</span>
+                        <span class="option-text">Star on GitHub</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="help-content" id="help-feedback">
+                <h3>Share Your Feedback</h3>
+                <p>We'd love to hear from you! Your feedback helps improve Aria.</p>
+                
+                <div class="feedback-options">
+                    <a href="https://github.com/VocalOpal/Aria/issues" target="_blank" class="feedback-option">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+                        <span>Report a Bug</span>
+                    </a>
+                    <a href="https://discord.gg/qPueSBm8dG" target="_blank" class="feedback-option">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>
+                        <span>Join Discord</span>
+                    </a>
+                </div>
+                
+                <p class="feedback-note">Join our Discord community to share ideas and get help!</p>
+            </div>
+        </div>
+    </div>
+    
+    <script type="module" src="js/customCssEditor.js"></script>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

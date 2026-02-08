@@ -1,0 +1,192 @@
+/* Aria Voice Studio - Tutorial Spotlight Styles */
+
+/* ============================================
+   Overlay
+   ============================================ */
+.tutorial-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.tutorial-overlay.hidden {
+    display: none;
+}
+
+.tutorial-overlay.active {
+    pointer-events: auto;
+}
+
+/* ============================================
+   Spotlight backdrop (box-shadow trick)
+   ============================================ */
+.tutorial-spotlight {
+    position: absolute;
+    border-radius: 8px;
+    box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.7);
+    transition: all 0.4s ease;
+    pointer-events: none;
+    z-index: 10001;
+}
+
+.tutorial-spotlight::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 12px;
+    border: 2px solid var(--trans-blue, #5bcefa);
+    opacity: 0.6;
+    animation: spotlightPulse 2s ease-in-out infinite;
+}
+
+@keyframes spotlightPulse {
+    0%, 100% { opacity: 0.4; border-color: var(--trans-blue, #5bcefa); }
+    50% { opacity: 0.8; border-color: var(--trans-pink, #f5a9b8); }
+}
+
+/* ============================================
+   Tooltip
+   ============================================ */
+.tutorial-tooltip {
+    position: absolute;
+    width: 300px;
+    background: var(--surface, #1e1e36);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 16px;
+    padding: 20px;
+    z-index: 10002;
+    pointer-events: auto;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    animation: tooltipFadeIn 0.3s ease forwards;
+}
+
+@keyframes tooltipFadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tooltip arrow */
+.tutorial-tooltip::before {
+    content: '';
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background: var(--surface, #1e1e36);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    transform: rotate(45deg);
+}
+
+.tutorial-tooltip.arrow-top::before {
+    top: -7px;
+    left: 24px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.tutorial-tooltip.arrow-bottom::before {
+    bottom: -7px;
+    left: 24px;
+    border-left: none;
+    border-top: none;
+}
+
+.tutorial-tooltip.arrow-left::before {
+    left: -7px;
+    top: 20px;
+    border-right: none;
+    border-top: none;
+}
+
+.tutorial-tooltip.arrow-right::before {
+    right: -7px;
+    top: 20px;
+    border-left: none;
+    border-bottom: none;
+}
+
+/* Step counter */
+.tutorial-step-counter {
+    font-size: 11px;
+    color: var(--trans-blue, #5bcefa);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+/* Tooltip title */
+.tutorial-tooltip-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+}
+
+/* Tooltip description */
+.tutorial-tooltip-desc {
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.65);
+    line-height: 1.5;
+    margin-bottom: 16px;
+}
+
+/* Tooltip actions */
+.tutorial-tooltip-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.tutorial-btn-skip {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.4);
+    font-size: 13px;
+    cursor: pointer;
+    padding: 6px 10px;
+    border-radius: 6px;
+    transition: color 0.2s;
+    font-family: inherit;
+}
+
+.tutorial-btn-skip:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.tutorial-btn-next {
+    background: linear-gradient(135deg, var(--trans-blue, #5bcefa), var(--trans-pink, #f5a9b8));
+    border: none;
+    color: white;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 8px 20px;
+    border-radius: 8px;
+    transition: opacity 0.2s, transform 0.2s;
+    font-family: inherit;
+}
+
+.tutorial-btn-next:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 480px) {
+    .tutorial-tooltip {
+        width: 260px;
+        padding: 16px;
+    }
+
+    .tutorial-tooltip-title {
+        font-size: 15px;
+    }
+
+    .tutorial-tooltip-desc {
+        font-size: 12px;
+    }
+}

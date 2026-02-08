@@ -1,0 +1,126 @@
+# GitHub Actions workflow for deploying Aria Voice Studio PWA to GitHub Pages
+#
+# Triggers on push to main branch
+# Deploys the web/ directory to GitHub Pages
+
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '.'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch: # Allow manual trigger
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  # Validate static files
+  validate:
+    runs-on: ubuntu-latest-4-cores
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Validate HTML
+        run: |
+          # Basic HTML validation (check for required elements)
+          if ! grep -q "<!DOCTYPE html>" index.html; then
+            echo "Error: Missing DOCTYPE"
+            exit 1
+          fi
+          if ! grep -q '<link rel="manifest"' index.html; then
+            echo "Error: Missing manifest link"
+            exit 1
+          fi
+          echo "HTML validation passed"
+
+      - name: Validate manifest.json
+        run: |
+          # Check manifest is valid JSON
+          python3 -c "import json; json.load(open('manifest.json'))"
+          echo "Manifest validation passed"
+
+      - name: Validate service-worker.js
+        run: |
+          # Check service worker exists and has required content
+          if ! grep -q "addEventListener.*install" service-worker.js; then
+            echo "Error: Service worker missing install handler"
+            exit 1
+          fi
+          if ! grep -q "addEventListener.*fetch" service-worker.js; then
+            echo "Error: Service worker missing fetch handler"
+            exit 1
+          fi
+          echo "Service worker validation passed"
+
+  # Build and deploy
+  deploy:
+    needs: validate
+    runs-on: ubuntu-latest-4-cores
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Create placeholder icons (if missing)
+        run: |
+          cd icons
+          # Create placeholder SVG icons if PNG icons don't exist
+          for size in 72 96 128 144 152 192 384 512; do
+            if [ ! -f "icon-${size}.png" ]; then
+              echo "Creating placeholder icon-${size}.png"
+              # Create a simple colored square as placeholder
+              cat > "icon-${size}.svg" << 'SVGEOF'
+          <svg xmlns="http://www.w3.org/2000/svg" width="SIZE" height="SIZE" viewBox="0 0 SIZE SIZE">
+            <defs>
+              <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#5bcefa"/>
+                <stop offset="50%" style="stop-color:#f5a9b8"/>
+                <stop offset="100%" style="stop-color:#ffffff"/>
+              </linearGradient>
+            </defs>
+            <rect width="SIZE" height="SIZE" rx="RADIUS" fill="url(#grad)"/>
+            <text x="50%" y="55%" font-family="Arial, sans-serif" font-size="FONTSIZE" font-weight="bold" fill="#1a1a2e" text-anchor="middle">A</text>
+          </svg>
+          SVGEOF
+              # Replace placeholders
+              sed -i "s/SIZE/${size}/g" "icon-${size}.svg"
+              radius=$((size / 5))
+              sed -i "s/RADIUS/${radius}/g" "icon-${size}.svg"
+              fontsize=$((size / 2))
+              sed -i "s/FONTSIZE/${fontsize}/g" "icon-${size}.svg"
+            fi
+          done
+          ls -la
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Output deployment URL
+        run: |
+          echo "Deployed to: ${{ steps.deployment.outputs.page_url }}"

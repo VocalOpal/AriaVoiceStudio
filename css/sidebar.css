@@ -1,0 +1,231 @@
+/* Aria Voice Studio - Sidebar Styles */
+
+/* ============================================
+   Enhanced Sidebar Cards
+   ============================================ */
+.streak-card {
+    width: 100%;
+    text-align: left;
+    background: var(--sidebar-accent);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.streak-card:hover {
+    background: var(--border);
+}
+
+.streak-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.streak-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+}
+
+.streak-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--fg);
+    margin: 0;
+}
+
+.streak-hint {
+    font-size: 11px;
+    color: var(--muted);
+}
+
+/* Voice Profile Card */
+.profile-card {
+    width: 100%;
+    text-align: left;
+    background: rgba(91, 206, 250, 0.08);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.profile-card:hover {
+    background: rgba(91, 206, 250, 0.15);
+}
+
+.profile-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.profile-label {
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--muted);
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.profile-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--trans-blue), var(--trans-pink));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    border: 2px solid rgba(245, 169, 184, 0.4);
+    box-shadow: 0 0 12px rgba(232, 180, 192, 0.3);
+}
+
+.profile-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg);
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.profile-pronouns {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0;
+}
+
+.profile-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
+}
+
+.profile-stat .stat-title {
+    display: block;
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--muted);
+}
+
+.profile-stat .stat-data {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--fg);
+}
+
+.profile-stat .stat-data.trend-up {
+    color: var(--trans-blue);
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+/* Support Card */
+.support-card {
+    background: rgba(245, 169, 184, 0.08);
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+}
+
+.support-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+}
+
+.support-header span {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--fg);
+}
+
+.support-text {
+    font-size: 11px;
+    color: var(--muted);
+    margin: 0 0 10px 0;
+}
+
+.support-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.donate-btn {
+    flex: 1;
+    height: 32px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--trans-pink), var(--trans-blue));
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 15px rgba(232, 180, 192, 0.25);
+}
+
+.donate-btn:hover {
+    opacity: 0.9;
+}
+
+.sparkle-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sparkle-btn:hover {
+    background: var(--sidebar-accent);
+}
+
+/* Help Hint */
+.help-hint {
+    padding-top: 12px;
+    margin-top: 8px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+}
+
+.help-hint kbd {
+    display: inline-block;
+    padding: 2px 6px;
+    font-size: 9px;
+    font-family: inherit;
+    background: var(--sidebar-accent);
+    border-radius: 4px;
+    color: var(--fg);
+}

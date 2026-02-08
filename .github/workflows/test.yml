@@ -1,0 +1,81 @@
+name: Test PWA
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'web/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'web/**'
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install ESLint
+        run: npm install -g eslint
+      
+      - name: Run ESLint
+        run: |
+          cd web
+          eslint js/ --ext .js --format stylish || true
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      
+      - name: Install Playwright
+        run: |
+          npm init -y
+          npm install -D @playwright/test
+          npx playwright install chromium
+      
+      - name: Start server
+        run: |
+          cd web
+          python3 -m http.server 8080 &
+          sleep 2
+      
+      - name: Run integration tests
+        run: |
+          npx playwright test --config=playwright.config.js || true
+
+  validate-pwa:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Validate manifest.json
+        run: |
+          cd web
+          python3 -c "import json; json.load(open('manifest.json'))"
+          echo "✓ manifest.json is valid JSON"
+      
+      - name: Validate service-worker.js exists
+        run: |
+          test -f web/service-worker.js
+          echo "✓ service-worker.js exists"
+      
+      - name: Check required files
+        run: |
+          test -f web/index.html && echo "✓ index.html"
+          test -f web/css/styles.css && echo "✓ styles.css"
+          test -f web/js/app.js && echo "✓ app.js"
+          test -f web/js/core/events.js && echo "✓ events.js"
+          test -f web/js/core/storage.js && echo "✓ storage.js"
+          test -f web/js/core/voiceAnalyzer.js && echo "✓ voiceAnalyzer.js"

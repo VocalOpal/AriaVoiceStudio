@@ -1,0 +1,742 @@
+/* Aria Voice Studio - Onboarding Styles */
+
+/* ============================================
+   Floating Background Orbs (CSS-only)
+   ============================================ */
+@keyframes floatOrb1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+@keyframes floatOrb2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-40px, 30px) scale(1.05); }
+    66% { transform: translate(25px, -35px) scale(0.9); }
+}
+
+@keyframes floatOrb3 {
+    0%, 100% { transform: translate(0, 0) scale(0.95); }
+    50% { transform: translate(20px, 40px) scale(1.1); }
+}
+
+/* ============================================
+   Animated SVG Waveform
+   ============================================ */
+@keyframes waveformPulse {
+    0%, 100% { transform: scaleY(0.3); }
+    50% { transform: scaleY(1); }
+}
+
+/* ============================================
+   Animated Checkmark
+   ============================================ */
+@keyframes checkDraw {
+    0% { stroke-dashoffset: 50; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes checkCircle {
+    0% { stroke-dashoffset: 166; }
+    100% { stroke-dashoffset: 0; }
+}
+
+@keyframes checkFadeIn {
+    0% { opacity: 0; transform: scale(0.8); }
+    100% { opacity: 1; transform: scale(1); }
+}
+
+/* ============================================
+   Slide Transitions
+   ============================================ */
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(60px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-60px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes slideOutLeft {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(-60px); }
+}
+
+@keyframes slideOutRight {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(60px); }
+}
+
+/* ============================================
+   Overlay & Container
+   ============================================ */
+.onboarding-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 50%, #1a1a2e 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.onboarding-overlay.hidden {
+    display: none;
+}
+
+/* Floating gradient orbs — use radial-gradient instead of filter:blur for zero composite cost */
+.onboarding-overlay::before,
+.onboarding-overlay::after {
+    content: '';
+    position: fixed;
+    border-radius: 50%;
+    pointer-events: none;
+    will-change: transform;
+}
+
+.onboarding-overlay::before {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(91, 206, 250, 0.18) 0%, transparent 70%);
+    top: -100px;
+    right: -100px;
+    animation: floatOrb1 12s ease-in-out infinite;
+}
+
+.onboarding-overlay::after {
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, rgba(245, 169, 184, 0.18) 0%, transparent 70%);
+    bottom: -80px;
+    left: -80px;
+    animation: floatOrb2 15s ease-in-out infinite;
+}
+
+.onboarding-bg-orb {
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    pointer-events: none;
+    background: radial-gradient(circle, rgba(91, 206, 250, 0.12) 0%, rgba(245, 169, 184, 0.08) 40%, transparent 70%);
+    top: 50%;
+    left: 50%;
+    animation: floatOrb3 18s ease-in-out infinite;
+    will-change: transform;
+}
+
+.onboarding-container {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+/* ============================================
+   Progress Bar (replaces dots)
+   ============================================ */
+.onboarding-progress {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 40px;
+    padding: 0 20px;
+}
+
+.onboarding-progress-segment {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+}
+
+.onboarding-progress-bar {
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.onboarding-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--trans-blue, #5bcefa), var(--trans-pink, #f5a9b8));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+}
+
+.onboarding-progress-segment.active .onboarding-progress-fill,
+.onboarding-progress-segment.completed .onboarding-progress-fill {
+    width: 100%;
+}
+
+.onboarding-progress-label {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.35);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    transition: color 0.3s;
+    white-space: nowrap;
+}
+
+.onboarding-progress-segment.active .onboarding-progress-label {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.onboarding-progress-segment.completed .onboarding-progress-label {
+    color: var(--trans-pink, #f5a9b8);
+}
+
+/* ============================================
+   Steps
+   ============================================ */
+.onboarding-step {
+    display: none;
+}
+
+.onboarding-step.active {
+    display: block;
+}
+
+.onboarding-step.slide-in-right {
+    animation: slideInRight 0.35s ease-out forwards;
+}
+
+.onboarding-step.slide-in-left {
+    animation: slideInLeft 0.35s ease-out forwards;
+}
+
+.onboarding-step h1 {
+    font-size: 36px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.onboarding-step h2 {
+    font-size: 28px;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 12px;
+}
+
+.onboarding-step p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+/* ============================================
+   Step 1 - Welcome (SVG waveform icon)
+   ============================================ */
+.welcome-icon-svg {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+}
+
+.welcome-icon-svg svg {
+    width: 80px;
+    height: 80px;
+}
+
+.welcome-icon-svg .waveform-bar {
+    fill: var(--trans-blue, #5bcefa);
+    transform-origin: bottom center;
+}
+
+.welcome-icon-svg .waveform-bar:nth-child(1) { animation: waveformPulse 1.2s ease-in-out 0s infinite; }
+.welcome-icon-svg .waveform-bar:nth-child(2) { animation: waveformPulse 1.2s ease-in-out 0.15s infinite; }
+.welcome-icon-svg .waveform-bar:nth-child(3) { animation: waveformPulse 1.2s ease-in-out 0.3s infinite; }
+.welcome-icon-svg .waveform-bar:nth-child(4) { animation: waveformPulse 1.2s ease-in-out 0.45s infinite; }
+.welcome-icon-svg .waveform-bar:nth-child(5) { animation: waveformPulse 1.2s ease-in-out 0.6s infinite; }
+
+.welcome-subtitle {
+    font-size: 20px;
+    color: var(--trans-blue, #5bcefa);
+    font-weight: 500;
+    margin-bottom: 32px;
+}
+
+/* Feature rows with SVG icons */
+.features-card {
+    background: linear-gradient(135deg, rgba(91, 206, 250, 0.12), rgba(245, 169, 184, 0.12));
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 20px;
+    padding: 24px;
+    text-align: left;
+}
+
+.feature-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 12px 0;
+}
+
+.feature-row + .feature-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.feature-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: rgba(255, 255, 255, 0.06);
+}
+
+.feature-icon-wrap svg {
+    width: 20px;
+    height: 20px;
+    stroke: var(--trans-blue, #5bcefa);
+}
+
+.feature-text {
+    flex: 1;
+}
+
+.feature-text strong {
+    display: block;
+    color: white;
+    font-size: 15px;
+    margin-bottom: 4px;
+}
+
+.feature-text span {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+/* ============================================
+   Step 2 - Voice Goal Cards
+   ============================================ */
+.goal-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.goal-card {
+    background: linear-gradient(135deg, rgba(91, 206, 250, 0.1), rgba(245, 169, 184, 0.1));
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: transform 0.2s, border-color 0.2s, background 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.goal-card:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.goal-card.selected {
+    background: linear-gradient(135deg, var(--trans-blue, #5bcefa), var(--trans-pink, #f5a9b8));
+    border-color: transparent;
+}
+
+.goal-card:nth-child(5) {
+    grid-column: span 2;
+    max-width: 300px;
+    justify-self: center;
+}
+
+.goal-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    transition: background 0.2s;
+}
+
+.goal-card.selected .goal-icon-wrap {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.goal-icon-wrap svg {
+    width: 22px;
+    height: 22px;
+    stroke: white;
+}
+
+.goal-card strong {
+    color: white;
+    font-size: 14px;
+}
+
+.goal-range {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 12px;
+}
+
+.goal-card.selected .goal-range {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+/* Pitch range indicator */
+.goal-pitch-indicator {
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+    margin-top: 4px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.goal-card.selected .goal-pitch-indicator {
+    opacity: 1;
+}
+
+.goal-pitch-indicator-fill {
+    height: 100%;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 2px;
+    transition: width 0.3s;
+}
+
+/* Custom Range Inputs */
+.custom-range-inputs {
+    margin-top: 24px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    animation: slideInRight 0.3s ease;
+}
+
+.custom-range-inputs.hidden {
+    display: none;
+}
+
+.custom-range-row {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.custom-range-row .form-group {
+    flex: 1;
+    max-width: 140px;
+}
+
+.custom-range-row .setting-input {
+    width: 100%;
+    text-align: center;
+}
+
+/* ============================================
+   Step 3 - Profile Setup
+   ============================================ */
+.profile-setup {
+    max-width: 320px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-setup .form-group {
+    text-align: left;
+}
+
+.profile-setup .setting-input,
+.profile-setup .setting-select {
+    width: 100%;
+}
+
+/* Required indicator */
+.onboarding-overlay .required {
+    color: var(--trans-pink, #f5a9b8);
+    font-weight: 600;
+}
+
+/* Error states */
+.onboarding-overlay .error-message {
+    display: block;
+    color: var(--danger, #e74c3c);
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.onboarding-overlay .error-message.hidden {
+    display: none;
+}
+
+.onboarding-overlay .setting-input.error {
+    border-color: var(--danger, #e74c3c);
+}
+
+/* Custom input field */
+.onboarding-overlay .custom-input {
+    margin-top: 12px;
+}
+
+.onboarding-overlay .custom-input.hidden {
+    display: none;
+}
+
+/* ============================================
+   Step 4 - All Set (animated checkmark)
+   ============================================ */
+.ready-icon-svg {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 24px;
+    animation: checkFadeIn 0.5s ease forwards;
+}
+
+.ready-icon-svg svg {
+    width: 80px;
+    height: 80px;
+}
+
+.ready-icon-svg .check-circle {
+    fill: none;
+    stroke: var(--trans-blue, #5bcefa);
+    stroke-width: 2;
+    stroke-dasharray: 166;
+    stroke-dashoffset: 166;
+    animation: checkCircle 0.6s ease forwards 0.2s;
+}
+
+.ready-icon-svg .check-mark {
+    fill: none;
+    stroke: var(--trans-pink, #f5a9b8);
+    stroke-width: 3;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 50;
+    stroke-dashoffset: 50;
+    animation: checkDraw 0.4s ease forwards 0.7s;
+}
+
+/* Summary card */
+.summary-card {
+    background: linear-gradient(135deg, rgba(91, 206, 250, 0.12), rgba(245, 169, 184, 0.12));
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.summary-card-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+}
+
+.summary-card-row + .summary-card-row {
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.summary-card-label {
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 13px;
+}
+
+.summary-card-value {
+    color: white;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+/* Tour prompt (toggle) */
+.tour-prompt {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: 16px;
+    padding: 14px 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+    text-align: left;
+}
+
+.tour-prompt:hover {
+    background: rgba(91, 206, 250, 0.1);
+    border-color: rgba(91, 206, 250, 0.25);
+}
+
+.tour-prompt.active {
+    background: rgba(91, 206, 250, 0.12);
+    border-color: var(--trans-blue, #5bcefa);
+}
+
+.tour-toggle {
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
+    position: relative;
+    transition: background 0.2s, border-color 0.2s;
+}
+
+.tour-prompt.active .tour-toggle {
+    background: var(--trans-blue, #5bcefa);
+    border-color: var(--trans-blue, #5bcefa);
+}
+
+.tour-prompt.active .tour-toggle::after {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 2px;
+    width: 5px;
+    height: 10px;
+    border: solid #1a1a2e;
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+}
+
+.tour-prompt-text {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.tour-prompt-text strong {
+    color: white;
+    font-size: 14px;
+}
+
+/* Privacy note */
+.privacy-note {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 16px 24px;
+    margin-top: 24px;
+}
+
+.privacy-note svg {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    color: var(--trans-blue, #5bcefa);
+    flex-shrink: 0;
+}
+
+.privacy-note span {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 14px;
+}
+
+/* ============================================
+   Goal Name Input (Step 2)
+   ============================================ */
+.goal-name-group {
+    max-width: 320px;
+    margin: 20px auto 0;
+    text-align: left;
+}
+
+.goal-name-group label {
+    display: block;
+    font-size: 13px;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.goal-name-group .setting-input {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* ============================================
+   Navigation
+   ============================================ */
+.onboarding-nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-top: 40px;
+}
+
+.onboarding-nav .btn {
+    min-width: 140px;
+    justify-content: center;
+}
+
+.onboarding-nav .btn-back {
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+}
+
+.onboarding-nav .btn-back.visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* ============================================
+   Responsive
+   ============================================ */
+@media (max-width: 480px) {
+    .onboarding-container {
+        padding: 0 4px;
+    }
+
+    .onboarding-step h1 {
+        font-size: 28px;
+    }
+
+    .onboarding-step h2 {
+        font-size: 22px;
+    }
+
+    .goal-cards {
+        grid-template-columns: 1fr;
+    }
+
+    .goal-card:nth-child(5) {
+        grid-column: span 1;
+        max-width: none;
+    }
+
+    .onboarding-progress-label {
+        font-size: 9px;
+    }
+
+    .features-card {
+        padding: 16px;
+    }
+}
