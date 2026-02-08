@@ -672,13 +672,34 @@
     border-bottom-color: var(--trans-pink);
 }
 
+#helpModal .modal-content {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+}
+
+#helpModal .modal-close {
+    grid-row: 1;
+    grid-column: 1;
+    z-index: 1;
+}
+
+#helpModal .help-tabs {
+    grid-row: 2;
+    grid-column: 1;
+}
+
 .help-content {
-    display: none;
+    grid-row: 3;
+    grid-column: 1;
     padding: 24px;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity 0.15s ease, visibility 0.15s ease;
 }
 
 .help-content.active {
-    display: block;
+    visibility: visible;
+    opacity: 1;
 }
 
 .help-content h3 {

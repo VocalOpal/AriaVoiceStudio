@@ -249,7 +249,7 @@ class ProfileScreen {
                     
                     ${metrics.totalSessions === 0 ? `
                         <div class="empty-state">
-                            <div class="empty-icon">🎤</div>
+                            <div class="empty-icon"><svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" x2="12" y1="19" y2="22"/></svg></div>
                             <p>Complete your first training session to see your voice profile!</p>
                         </div>
                     ` : `
@@ -290,14 +290,14 @@ class ProfileScreen {
                     <h3>This Week</h3>
                     <div class="weekly-stats">
                         <div class="weekly-stat">
-                            <div class="stat-icon">🕐</div>
+                            <div class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
                             <div class="stat-content">
                                 <span class="stat-value">${Math.round(metrics.weeklyPracticeMinutes)} min</span>
                                 <span class="stat-label">Practice Time</span>
                             </div>
                         </div>
                         <div class="weekly-stat">
-                            <div class="stat-icon">📊</div>
+                            <div class="stat-icon"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg></div>
                             <div class="stat-content">
                                 <span class="stat-value">${metrics.weeklySessionCount}</span>
                                 <span class="stat-label">Sessions</span>
@@ -345,9 +345,9 @@ class ProfileScreen {
      */
     renderMetricCard(title, value, insight, trend, type) {
         const trendIcon = {
-            'up': '↑',
-            'down': '↓',
-            'stable': '→',
+            'up': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg>',
+            'down': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+            'stable': '<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>',
             'none': ''
         }[trend];
         
@@ -380,7 +380,7 @@ class ProfileScreen {
         
         if (avgPitch === 0) return 'No data yet';
         if (avgPitch >= targetMin && avgPitch <= targetMax) {
-            return '✓ Within your target range';
+            return 'Within your target range';
         } else if (avgPitch < targetMin) {
             const diff = targetMin - avgPitch;
             return `${Math.round(diff)} Hz below target`;
@@ -395,7 +395,7 @@ class ProfileScreen {
      */
     getStabilityInsight(stability) {
         if (stability === 0) return 'No data yet';
-        if (stability >= 0.8) return '✓ Excellent control';
+        if (stability >= 0.8) return 'Excellent control';
         if (stability >= 0.6) return 'Good, room to improve';
         if (stability >= 0.4) return 'Practice sustained notes';
         return 'Focus on breath support';
@@ -406,7 +406,7 @@ class ProfileScreen {
      */
     getTimeInRangeInsight(timeInRange) {
         if (timeInRange === 0) return 'No data yet';
-        if (timeInRange >= 0.7) return '✓ Great consistency';
+        if (timeInRange >= 0.7) return 'Great consistency';
         if (timeInRange >= 0.5) return 'Building muscle memory';
         return 'Keep practicing!';
     }
@@ -434,7 +434,7 @@ class ProfileScreen {
             if (metrics.averagePitch < targetMin) {
                 insights.push({
                     type: 'suggestion',
-                    icon: '🎯',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>',
                     title: 'Pitch Below Target',
                     description: `Your average pitch is ${Math.round(targetMin - metrics.averagePitch)} Hz below your target. This is normal during training.`,
                     action: 'Try pitch glide exercises to expand your range upward.'
@@ -442,7 +442,7 @@ class ProfileScreen {
             } else if (metrics.averagePitch > targetMax) {
                 insights.push({
                     type: 'info',
-                    icon: '📈',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m19 9-5 5-4-4-3 3"/></svg>',
                     title: 'Pitch Above Target',
                     description: `You're speaking ${Math.round(metrics.averagePitch - targetMax)} Hz above your target. Make sure this feels comfortable.`,
                     action: 'If you feel strain, try relaxing your larynx.'
@@ -450,7 +450,7 @@ class ProfileScreen {
             } else {
                 insights.push({
                     type: 'success',
-                    icon: '✨',
+                    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>',
                     title: 'On Target!',
                     description: 'Your average pitch is within your target range. Great progress!',
                     action: 'Focus on consistency and naturalness.'
@@ -462,7 +462,7 @@ class ProfileScreen {
         if (metrics.pitchStability < 0.6 && metrics.totalSessions >= 3) {
             insights.push({
                 type: 'suggestion',
-                icon: '🎵',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>',
                 title: 'Improve Stability',
                 description: 'Your pitch varies quite a bit during practice. This is common when learning.',
                 action: 'Try sustained vowel exercises to build control.'
@@ -470,7 +470,7 @@ class ProfileScreen {
         } else if (metrics.stabilityTrend === 'up') {
             insights.push({
                 type: 'success',
-                icon: '📊',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>',
                 title: 'Stability Improving',
                 description: 'Your pitch control is getting better over time!',
                 action: null
@@ -481,7 +481,7 @@ class ProfileScreen {
         if (metrics.weeklySessionCount < 3) {
             insights.push({
                 type: 'reminder',
-                icon: '📅',
+                icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>',
                 title: 'Practice Reminder',
                 description: 'Consistent practice helps build muscle memory. Even 5-10 minutes daily makes a difference.',
                 action: 'Aim for 3-5 sessions per week.'

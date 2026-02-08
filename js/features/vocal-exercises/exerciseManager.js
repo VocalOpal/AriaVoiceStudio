@@ -58,12 +58,9 @@ class ExerciseManager {
                 bestScore: 0
             };
             
-            const unlocked = this.checkUnlocked(exercise, userStats);
-            
             return {
                 ...exercise,
                 progress,
-                unlocked,
                 recommended: this.isRecommended(exercise, userStats, progress)
             };
         });
@@ -84,37 +81,6 @@ class ExerciseManager {
         }
         
         return result;
-    }
-    
-    /**
-     * Check if an exercise is unlocked
-     */
-    checkUnlocked(exercise, userStats = {}) {
-        if (!exercise.unlockRequirements) return true;
-        
-        const reqs = exercise.unlockRequirements;
-        
-        // Check completed exercises requirement
-        if (reqs.completedExercises) {
-            for (const reqExId of reqs.completedExercises) {
-                const progress = this.userProgress.get(reqExId);
-                if (!progress || progress.completedCount === 0) {
-                    return false;
-                }
-            }
-        }
-        
-        // Check minimum sessions
-        if (reqs.minSessions && (userStats.totalSessions || 0) < reqs.minSessions) {
-            return false;
-        }
-        
-        // Check minimum streak
-        if (reqs.minStreak && (userStats.currentStreak || 0) < reqs.minStreak) {
-            return false;
-        }
-        
-        return true;
     }
     
     /**
@@ -154,7 +120,7 @@ class ExerciseManager {
         // 1. Recommend warmup if not done today
         if (!userStats.hasWarmup) {
             const warmups = allExercises.filter(ex => 
-                ex.category.id === 'warmup' && ex.unlocked
+                ex.category.id === 'warmup'
             );
             if (warmups.length > 0) {
                 recommendations.push({
@@ -169,7 +135,7 @@ class ExerciseManager {
         const weakSkills = this.identifyWeakSkills(userStats);
         for (const skill of weakSkills.slice(0, 2)) {
             const skillExercises = allExercises.filter(ex => 
-                ex.skills.includes(skill) && ex.unlocked && ex.category.id !== 'warmup'
+                ex.skills.includes(skill) && ex.category.id !== 'warmup'
             );
             if (skillExercises.length > 0) {
                 recommendations.push({
@@ -183,7 +149,6 @@ class ExerciseManager {
         
         // 3. Recommend exercises for progression
         const progressExercises = allExercises.filter(ex => 
-            ex.unlocked && 
             !ex.progress.lastAttempt &&
             ex.category.id !== 'warmup' &&
             ex.category.id !== 'cooldown'
@@ -199,7 +164,7 @@ class ExerciseManager {
         // 4. Recommend cooldown if session is ending
         if (userStats.sessionDuration > 10) {
             const cooldowns = allExercises.filter(ex => 
-                ex.category.id === 'cooldown' && ex.unlocked
+                ex.category.id === 'cooldown'
             );
             if (cooldowns.length > 0) {
                 recommendations.push({

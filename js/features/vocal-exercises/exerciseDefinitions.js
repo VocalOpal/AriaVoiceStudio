@@ -42,11 +42,6 @@ import {
  *     increaseOn?: string,
  *     decreaseOn?: string,
  *     adjustments?: object
- *   },
- *   unlockRequirements?: {         // When this exercise unlocks
- *     completedExercises?: string[],
- *     minSessions?: number,
- *     minStreak?: number
  *   }
  * }
  */
@@ -389,11 +384,7 @@ export const exerciseDefinitions = [
             "Thank you so much for your help.",
             "I'm looking forward to seeing you.",
             "Could you repeat that please?"
-        ],
-        unlockRequirements: {
-            completedExercises: ['pitch-sustain-target'],
-            minSessions: 3
-        }
+        ]
     },
     
     {
@@ -423,10 +414,6 @@ export const exerciseDefinitions = [
         feedback: {
             onSuccess: 'Excellent sustained speech!',
             onComplete: 'Reading practice complete!'
-        },
-        unlockRequirements: {
-            completedExercises: ['speech-sentences-target'],
-            minSessions: 5
         }
     },
     

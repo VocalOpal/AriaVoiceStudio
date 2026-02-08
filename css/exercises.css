@@ -122,59 +122,146 @@
     color: var(--muted);
 }
 
-/* Category Tabs */
-.category-tabs {
+/* Section Heading */
+.section-heading {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}
+
+/* Category Cards (main landing) */
+.category-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 12px;
+}
+
+.category-card-large {
     display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 18px 20px;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.category-card-large:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.category-card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.category-card-icon svg {
+    width: 24px;
+    height: 24px;
+}
+
+.category-card-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.category-card-info h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.category-card-count {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.category-card-progress {
+    display: flex;
+    align-items: center;
     gap: 8px;
-    overflow-x: auto;
-    padding-bottom: 8px;
+    flex-shrink: 0;
+}
+
+.category-done-badge {
+    font-size: 12px;
+    color: var(--muted);
+    background: var(--sidebar-accent);
+    padding: 3px 8px;
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.category-arrow {
+    color: var(--muted);
+    flex-shrink: 0;
+}
+
+/* Category Detail Header (inside a category) */
+.category-detail-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
     margin-bottom: 20px;
 }
 
-.category-tab {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 10px 16px;
-    border-radius: 20px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 13px;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.2s;
-}
-
-.category-tab:hover {
+.category-detail-header .back-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
     background: var(--sidebar-accent);
     color: var(--fg);
-}
-
-.category-tab.active {
-    background: linear-gradient(135deg, var(--trans-blue), var(--trans-pink));
-    color: white;
-    border-color: transparent;
-}
-
-.category-icon {
-    font-size: 16px;
-}
-
-/* Exercise Category Groups */
-.exercise-category-group {
-    margin-bottom: 24px;
-}
-
-.exercise-category-group .category-title {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--muted);
-    margin-bottom: 12px;
+    cursor: pointer;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: background 0.2s;
+}
+
+.category-detail-header .back-btn:hover {
+    background: var(--border);
+}
+
+.category-detail-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.category-detail-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.category-detail-info h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.category-detail-count {
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.empty-category {
+    text-align: center;
+    padding: 32px;
+    color: var(--muted);
 }
 
 .exercise-cards {
@@ -194,10 +281,6 @@
 .exercise-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-}
-
-.exercise-card.locked {
-    opacity: 0.6;
 }
 
 .exercise-card-header {
@@ -262,15 +345,6 @@
 .exercise-card .start-exercise-btn {
     width: 100%;
     justify-content: center;
-}
-
-.locked-message {
-    font-size: 12px;
-    color: var(--muted);
-    text-align: center;
-    padding: 8px;
-    background: var(--sidebar-accent);
-    border-radius: 8px;
 }
 
 /* ============================================

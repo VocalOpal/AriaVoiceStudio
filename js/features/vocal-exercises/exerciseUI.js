@@ -105,7 +105,7 @@ function showExerciseModePanel(exercise) {
         targetRangeEl.textContent = `${targetMin} - ${targetMax} Hz`;
     }
     if (durationEl) durationEl.textContent = exercise.duration || '2 mins';
-    if (difficultyEl) difficultyEl.textContent = exercise.difficulty || 'Beginner';
+    if (difficultyEl) difficultyEl.textContent = exercise.difficulty?.label || 'Beginner';
     
     // Update instruction steps based on exercise type
     updateExerciseInstructions(exercise);
@@ -308,7 +308,7 @@ function completeExercise() {
     }
     
     if (onShowToast) {
-        onShowToast(`🎉 Exercise "${currentExercise?.title}" completed!`, 'success');
+        onShowToast(`Exercise "${currentExercise?.title}" completed!`, 'success');
     }
     
     // Emit completion event for progress tracking

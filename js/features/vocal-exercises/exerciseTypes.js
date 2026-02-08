@@ -56,12 +56,12 @@ export const DifficultyLevels = {
  * Exercise categories for organization
  */
 export const ExerciseCategories = {
-    WARMUP: { id: 'warmup', label: 'Warm-up', icon: '🔥', color: '#ff9800' },
-    PITCH: { id: 'pitch', label: 'Pitch Training', icon: '🎵', color: '#5bcefa' },
-    RESONANCE: { id: 'resonance', label: 'Resonance', icon: '🔊', color: '#f5a9b8' },
-    BREATH: { id: 'breath', label: 'Breath Control', icon: '💨', color: '#4caf50' },
-    SPEECH: { id: 'speech', label: 'Speech Practice', icon: '💬', color: '#9c27b0' },
-    COOLDOWN: { id: 'cooldown', label: 'Cool-down', icon: '❄️', color: '#2196f3' }
+    WARMUP: { id: 'warmup', label: 'Warm-up', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>', color: '#ff9800' },
+    PITCH: { id: 'pitch', label: 'Pitch Training', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>', color: '#5bcefa' },
+    RESONANCE: { id: 'resonance', label: 'Resonance', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>', color: '#f5a9b8' },
+    BREATH: { id: 'breath', label: 'Breath Control', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/><path d="M9.6 4.6A2 2 0 1 1 11 8H2"/><path d="M12.6 19.4A2 2 0 1 0 14 16H2"/></svg>', color: '#4caf50' },
+    SPEECH: { id: 'speech', label: 'Speech Practice', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></svg>', color: '#9c27b0' },
+    COOLDOWN: { id: 'cooldown', label: 'Cool-down', icon: '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h10"/><path d="M9 4v16"/><path d="m3 9 3 3-3 3"/><path d="M12 6 9 9 6 6"/><path d="m6 18 3-3 1.5 1.5"/><path d="M20 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></svg>', color: '#2196f3' }
 };
 
 /**
