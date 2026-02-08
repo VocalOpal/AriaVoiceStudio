@@ -4,11 +4,12 @@ import { openDB, put, get, getAll, STORES, onDatabaseBlocked } from './core/stor
 import { getStateManager } from './state/stateManager.js';
 import { classifyPitch, getSessionRecorder, AUDIO_CONFIG } from './audio/index.js';
 import { exerciseDefinitions } from './features/vocal-exercises/exerciseDefinitions.js';
-import { 
-    initExerciseUI, 
-    startExercise, 
+import {
+    initExerciseUI,
+    startExercise,
     getCurrentExercise,
     isInExerciseMode,
+    clearExerciseMode,
     onTrainingStart as exerciseOnTrainingStart,
     onTrainingStop as exerciseOnTrainingStop,
     getExerciseTitle,
@@ -170,12 +171,17 @@ async function startAudioCapture() {
             throw new Error('getUserMedia is not supported in this browser');
         }
         
+        const audioConstraints = {
+            echoCancellation: false,
+            noiseSuppression: false,
+            autoGainControl: false
+        };
+        const savedDeviceId = await loadSettings('audioInputDevice', '');
+        if (savedDeviceId) {
+            audioConstraints.deviceId = { exact: savedDeviceId };
+        }
         state.mediaStream = await navigator.mediaDevices.getUserMedia({
-            audio: {
-                echoCancellation: false,
-                noiseSuppression: false,
-                autoGainControl: false
-            }
+            audio: audioConstraints
         });
         
         state.audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -748,6 +754,20 @@ function initEventListeners() {
     // Training controls
     addEventListenerWithCleanup(elements.startTrainingBtn, 'click', toggleTraining);
     addEventListenerWithCleanup(elements.stopRestBtn, 'click', stopTraining);
+
+    // Stop training and clear exercise mode when navigating away from training screen
+    document.querySelectorAll('.nav-item').forEach(item => {
+        if (item.dataset.screen !== 'training') {
+            addEventListenerWithCleanup(item, 'click', () => {
+                if (state.isTraining) {
+                    stopTraining();
+                }
+                if (isInExerciseMode()) {
+                    clearExerciseMode();
+                }
+            });
+        }
+    });
 
     // Refresh Journey screen data when navigating to it
     const journeyNav = document.querySelector('.nav-item[data-screen="journey"]');

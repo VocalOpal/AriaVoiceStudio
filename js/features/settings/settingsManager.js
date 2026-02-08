@@ -10,6 +10,18 @@ export function initSettingsModule(callbacks) {
 export async function initSettings() {
     const saveSettings = _callbacks.saveSettings;
 
+    // Settings tab navigation
+    const settingsNavItems = document.querySelectorAll('.settings-nav-item');
+    const settingsPanels = document.querySelectorAll('.settings-panel');
+
+    settingsNavItems.forEach(item => {
+        item.addEventListener('click', () => {
+            const tab = item.dataset.settingsTab;
+            settingsNavItems.forEach(n => n.classList.toggle('active', n === item));
+            settingsPanels.forEach(p => p.classList.toggle('active', p.id === `settings-${tab}`));
+        });
+    });
+
     // Theme toggles - sync with sidebar toggle
     const themeToggles = document.querySelectorAll('.toggle-btn[data-theme]');
     themeToggles.forEach(btn => {
@@ -178,6 +190,55 @@ export async function initSettings() {
         });
     }
 
+    // Audio input device selector
+    const audioInputSelect = document.getElementById('audioInputDevice');
+    const refreshAudioDevicesBtn = document.getElementById('refreshAudioDevices');
+
+    const loadSettings = _callbacks.loadSettings;
+
+    async function populateAudioDevices() {
+        if (!audioInputSelect || !navigator.mediaDevices?.enumerateDevices) return;
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const audioInputs = devices.filter(d => d.kind === 'audioinput');
+            const currentValue = audioInputSelect.value;
+
+            // Clear all options except the default
+            while (audioInputSelect.options.length > 1) {
+                audioInputSelect.remove(1);
+            }
+
+            audioInputs.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.textContent = device.label || `Microphone (${device.deviceId.slice(0, 8)}...)`;
+                audioInputSelect.appendChild(option);
+            });
+
+            // Restore previous selection if still available
+            const savedDevice = await loadSettings('audioInputDevice', '');
+            const valueToSet = currentValue || savedDevice;
+            const exists = Array.from(audioInputSelect.options).some(o => o.value === valueToSet);
+            audioInputSelect.value = exists ? valueToSet : '';
+        } catch (err) {
+            console.error('[Settings] Failed to enumerate audio devices:', err);
+        }
+    }
+
+    if (audioInputSelect) {
+        audioInputSelect.addEventListener('change', async (e) => {
+            await saveSettings('audioInputDevice', e.target.value);
+        });
+    }
+    if (refreshAudioDevicesBtn) {
+        refreshAudioDevicesBtn.addEventListener('click', populateAudioDevices);
+    }
+    if (navigator.mediaDevices) {
+        navigator.mediaDevices.addEventListener('devicechange', populateAudioDevices);
+    }
+
+    await populateAudioDevices();
+
     // Data export/import - wire buttons to dataManager
     const { exportAllData, importData, clearAllData } = await import('./dataManager.js');
     const exportBtn = document.getElementById('exportDataBtn');
@@ -334,6 +395,14 @@ export async function loadSavedSettings() {
     if (pitchAlertDelayInput) pitchAlertDelayInput.value = pitchAlertDelay;
     if (pitchAlertVolumeSlider) pitchAlertVolumeSlider.value = pitchAlertVolume;
     if (pitchAlertVolumeValue) pitchAlertVolumeValue.textContent = `${pitchAlertVolume}%`;
+
+    // Load audio input device
+    const savedAudioDevice = await loadSettings('audioInputDevice', '');
+    const audioInputSelect = document.getElementById('audioInputDevice');
+    if (audioInputSelect && savedAudioDevice) {
+        const exists = Array.from(audioInputSelect.options).some(o => o.value === savedAudioDevice);
+        audioInputSelect.value = exists ? savedAudioDevice : '';
+    }
 
     // Update UI elements
     updateRangeVisualization();

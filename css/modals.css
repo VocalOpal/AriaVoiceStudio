@@ -446,44 +446,6 @@
     gap: 16px;
 }
 
-/* Intensity & Duration Options */
-.intensity-options,
-.duration-options {
-    display: flex;
-    gap: 12px;
-}
-
-.intensity-option,
-.duration-option {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: var(--sidebar-accent);
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.intensity-option:has(input:checked),
-.duration-option:has(input:checked) {
-    border-color: var(--trans-pink);
-    background: rgba(245, 169, 184, 0.15);
-}
-
-.intensity-option input,
-.duration-option input {
-    display: none;
-}
-
-.intensity-option span,
-.duration-option span {
-    font-size: 14px;
-    text-transform: capitalize;
-}
-
 /* Sensitivity Slider */
 .sensitivity-slider {
     width: 100%;

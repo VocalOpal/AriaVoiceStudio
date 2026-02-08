@@ -13,10 +13,11 @@ export { ExerciseRunner } from './exerciseRunner.js';
 export { getExercises, getExerciseById, getExercisesByCategory } from './exerciseDefinitions.js';
 
 // Exercise UI exports
-export { 
-    initExerciseUI, 
-    startExercise, 
-    exitExerciseMode, 
+export {
+    initExerciseUI,
+    startExercise,
+    exitExerciseMode,
+    clearExerciseMode,
     getCurrentExercise,
     isInExerciseMode,
     onTrainingStart,

@@ -27,7 +27,8 @@ class SettingsService {
             showAdvancedMetrics: false,
             autoStartSession: false,
             soundEnabled: true,
-            hapticFeedback: true
+            hapticFeedback: true,
+            audioInputDevice: ''
         };
         
         this.initialized = false;

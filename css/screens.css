@@ -695,15 +695,114 @@
 /* ============================================
    Settings
    ============================================ */
-.settings-sections {
+.settings-layout {
+    display: flex;
+    gap: 24px;
+    max-width: 900px;
+}
+
+.settings-nav {
+    width: 180px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 24px;
+    align-self: flex-start;
     display: flex;
     flex-direction: column;
+    gap: 4px;
+}
+
+.settings-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border: none;
+    background: transparent;
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+    width: 100%;
+}
+
+.settings-nav-item:hover {
+    background: var(--sidebar-accent);
+    color: var(--fg);
+}
+
+.settings-nav-item.active {
+    background: var(--sidebar-accent);
+    color: var(--fg);
+}
+
+.settings-nav-item.settings-nav-danger {
+    color: var(--muted);
+}
+
+.settings-nav-item.settings-nav-danger:hover {
+    color: var(--danger);
+}
+
+.settings-nav-item.settings-nav-danger.active {
+    background: var(--sidebar-accent);
+    color: var(--danger);
+}
+
+.settings-nav-separator {
+    height: 1px;
+    background: var(--border);
+    margin: 8px 0;
+}
+
+.settings-panels {
+    flex: 1;
+    min-width: 0;
+}
+
+.settings-panel {
+    display: none;
+    flex-direction: column;
     gap: 16px;
-    max-width: 600px;
+}
+
+.settings-panel.active {
+    display: flex;
 }
 
 .settings-section {
     padding: 24px;
+}
+
+@media (max-width: 768px) {
+    .settings-layout {
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    .settings-nav {
+        flex-direction: row;
+        overflow-x: auto;
+        width: 100%;
+        position: static;
+        gap: 4px;
+        padding-bottom: 4px;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .settings-nav-item {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    .settings-nav-separator {
+        display: none;
+    }
 }
 
 .section-header {
@@ -814,6 +913,24 @@
 .setting-input.small {
     width: 80px;
     text-align: center;
+}
+
+.audio-input-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.audio-input-controls .setting-input {
+    width: 180px;
+}
+
+.audio-input-controls .btn-sm {
+    padding: 6px 8px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .setting-select {

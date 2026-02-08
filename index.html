@@ -426,120 +426,166 @@
                     </div>
                 </div>
                 
-                <div class="settings-sections">
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                            <h3>Profile</h3>
-                        </div>
-                        <div class="setting-row">
-                            <label>Display Name</label>
-                            <input type="text" id="profileName" value="User" class="setting-input">
-                        </div>
-                        <div class="setting-row">
-                            <label>Gender Identity</label>
-                            <div class="select-with-custom">
-                                <select id="genderIdentity" class="setting-select">
-                                    <option value="woman">Woman</option>
-                                    <option value="man">Man</option>
-                                    <option value="non-binary">Non-binary</option>
-                                    <option value="genderfluid">Genderfluid</option>
-                                    <option value="agender">Agender</option>
-                                    <option value="prefer-not">Prefer not to say</option>
-                                    <option value="custom">Custom...</option>
-                                </select>
-                                <input type="text" id="genderIdentityCustom" class="setting-input custom-input hidden" placeholder="Enter your gender identity">
-                            </div>
-                        </div>
-                        <div class="setting-row">
-                            <label>Pronouns</label>
-                            <div class="select-with-custom">
-                                <select id="pronouns" class="setting-select">
-                                    <option value="she/her">she/her</option>
-                                    <option value="he/him">he/him</option>
-                                    <option value="they/them">they/them</option>
-                                    <option value="she/they">she/they</option>
-                                    <option value="he/they">he/they</option>
-                                    <option value="any">any pronouns</option>
-                                    <option value="custom">Custom...</option>
-                                </select>
-                                <input type="text" id="pronounsCustom" class="setting-input custom-input hidden" placeholder="Enter your pronouns">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
-                            <h3>Voice Target</h3>
-                        </div>
-                        
-                        <!-- Visual Range Selector -->
-                        <div class="voice-range-viz">
-                            <label>Target Pitch Range</label>
-                            <div class="range-gradient" id="rangeGradient">
-                                <div class="range-selection" id="rangeSelection"></div>
-                            </div>
-                            <div class="range-labels">
-                                <span>80 Hz</span>
-                                <span class="label-lower">Lower</span>
-                                <span>Mid</span>
-                                <span class="label-higher">Higher</span>
-                                <span>300 Hz</span>
-                            </div>
-                            <div class="range-inputs-row">
-                                <div class="range-input-group">
-                                    <label>Min (Hz)</label>
-                                    <input type="number" id="targetMin" value="140" min="80" max="290" class="setting-input small">
+                <div class="settings-layout">
+                    <nav class="settings-nav" aria-label="Settings categories">
+                        <button class="settings-nav-item active" data-settings-tab="voice">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                            My Voice
+                        </button>
+                        <button class="settings-nav-item" data-settings-tab="appearance">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                            Appearance
+                        </button>
+                        <button class="settings-nav-item" data-settings-tab="notifications">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                            Notifications
+                        </button>
+                        <button class="settings-nav-item" data-settings-tab="data">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            Data
+                        </button>
+                        <div class="settings-nav-separator"></div>
+                        <button class="settings-nav-item settings-nav-danger" data-settings-tab="danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                            Danger Zone
+                        </button>
+                    </nav>
+
+                    <div class="settings-panels">
+                        <div class="settings-panel active" id="settings-voice">
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                    <h3>Profile</h3>
                                 </div>
-                                <div class="range-input-group">
-                                    <label>Max (Hz)</label>
-                                    <input type="number" id="targetMax" value="200" min="90" max="300" class="setting-input small">
+                                <div class="setting-row">
+                                    <label>Display Name</label>
+                                    <input type="text" id="profileName" value="User" class="setting-input">
+                                </div>
+                                <div class="setting-row">
+                                    <label>Gender Identity</label>
+                                    <div class="select-with-custom">
+                                        <select id="genderIdentity" class="setting-select">
+                                            <option value="woman">Woman</option>
+                                            <option value="man">Man</option>
+                                            <option value="non-binary">Non-binary</option>
+                                            <option value="genderfluid">Genderfluid</option>
+                                            <option value="agender">Agender</option>
+                                            <option value="prefer-not">Prefer not to say</option>
+                                            <option value="custom">Custom...</option>
+                                        </select>
+                                        <input type="text" id="genderIdentityCustom" class="setting-input custom-input hidden" placeholder="Enter your gender identity">
+                                    </div>
+                                </div>
+                                <div class="setting-row">
+                                    <label>Pronouns</label>
+                                    <div class="select-with-custom">
+                                        <select id="pronouns" class="setting-select">
+                                            <option value="she/her">she/her</option>
+                                            <option value="he/him">he/him</option>
+                                            <option value="they/them">they/them</option>
+                                            <option value="she/they">she/they</option>
+                                            <option value="he/they">he/they</option>
+                                            <option value="any">any pronouns</option>
+                                            <option value="custom">Custom...</option>
+                                        </select>
+                                        <input type="text" id="pronounsCustom" class="setting-input custom-input hidden" placeholder="Enter your pronouns">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        
-                        <!-- Quick Presets -->
-                        <div class="preset-section">
-                            <label>Quick Presets</label>
-                            <div class="preset-buttons">
-                                <button class="preset-btn preset-blue" data-min="85" data-max="165">Lower (85-165 Hz)</button>
-                                <button class="preset-btn preset-neutral" data-min="145" data-max="185">Mid (145-185 Hz)</button>
-                                <button class="preset-btn preset-pink" data-min="165" data-max="255">Higher (165-255 Hz)</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-                            <h3>Appearance</h3>
-                        </div>
-                        <div class="setting-row">
-                            <label>Theme</label>
-                            <div class="toggle-group">
-                                <button class="toggle-btn active" data-theme="dark">Dark</button>
-                                <button class="toggle-btn" data-theme="light">Light</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
-                            <h3>Custom CSS</h3>
-                        </div>
-                        <p class="section-desc">Add your own custom CSS to personalize Aria. Changes apply instantly to both light and dark themes.</p>
-                        
-                        <div class="css-editor-container">
-                            <div class="css-editor-header">
-                                <label>Custom CSS Rules</label>
-                                <div class="css-editor-actions">
-                                    <button class="btn btn-secondary btn-sm" id="clearCssBtn">Clear</button>
-                                    <button class="btn btn-primary btn-sm" id="saveCssBtn">Save</button>
+
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>
+                                    <h3>Voice Target</h3>
+                                </div>
+
+                                <!-- Visual Range Selector -->
+                                <div class="voice-range-viz">
+                                    <label>Target Pitch Range</label>
+                                    <div class="range-gradient" id="rangeGradient">
+                                        <div class="range-selection" id="rangeSelection"></div>
+                                    </div>
+                                    <div class="range-labels">
+                                        <span>80 Hz</span>
+                                        <span class="label-lower">Lower</span>
+                                        <span>Mid</span>
+                                        <span class="label-higher">Higher</span>
+                                        <span>300 Hz</span>
+                                    </div>
+                                    <div class="range-inputs-row">
+                                        <div class="range-input-group">
+                                            <label>Min (Hz)</label>
+                                            <input type="number" id="targetMin" value="140" min="80" max="290" class="setting-input small">
+                                        </div>
+                                        <div class="range-input-group">
+                                            <label>Max (Hz)</label>
+                                            <input type="number" id="targetMax" value="200" min="90" max="300" class="setting-input small">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Quick Presets -->
+                                <div class="preset-section">
+                                    <label>Quick Presets</label>
+                                    <div class="preset-buttons">
+                                        <button class="preset-btn preset-blue" data-min="85" data-max="165">Lower (85-165 Hz)</button>
+                                        <button class="preset-btn preset-neutral" data-min="145" data-max="185">Mid (145-185 Hz)</button>
+                                        <button class="preset-btn preset-pink" data-min="165" data-max="255">Higher (165-255 Hz)</button>
+                                    </div>
                                 </div>
                             </div>
-                            <textarea id="customCssInput" class="css-editor" placeholder="/* Add your custom CSS here */
+
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="22"/></svg>
+                                    <h3>Audio Input</h3>
+                                </div>
+                                <div class="setting-row">
+                                    <label for="audioInputDevice">Microphone</label>
+                                    <div class="audio-input-controls">
+                                        <select id="audioInputDevice" class="setting-input">
+                                            <option value="">System Default</option>
+                                        </select>
+                                        <button id="refreshAudioDevices" class="btn btn-secondary btn-sm" title="Refresh device list" aria-label="Refresh audio devices">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-panel" id="settings-appearance">
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                                    <h3>Appearance</h3>
+                                </div>
+                                <div class="setting-row">
+                                    <label>Theme</label>
+                                    <div class="toggle-group">
+                                        <button class="toggle-btn active" data-theme="dark">Dark</button>
+                                        <button class="toggle-btn" data-theme="light">Light</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                                    <h3>Custom CSS</h3>
+                                </div>
+                                <p class="section-desc">Add your own custom CSS to personalize Aria. Changes apply instantly to both light and dark themes.</p>
+
+                                <div class="css-editor-container">
+                                    <div class="css-editor-header">
+                                        <label>Custom CSS Rules</label>
+                                        <div class="css-editor-actions">
+                                            <button class="btn btn-secondary btn-sm" id="clearCssBtn">Clear</button>
+                                            <button class="btn btn-primary btn-sm" id="saveCssBtn">Save</button>
+                                        </div>
+                                    </div>
+                                    <textarea id="customCssInput" class="css-editor" placeholder="/* Add your custom CSS here */
 :root {
     --trans-blue: #your-color;
     --trans-pink: #your-color;
@@ -554,16 +600,16 @@
 .btn-primary {
     background: your-gradient;
 }"></textarea>
-                            <div class="css-status" id="cssStatus">
-                                <span class="status-indicator" id="cssStatusIndicator"></span>
-                                <span class="status-text" id="cssStatusText">Ready</span>
-                            </div>
-                        </div>
-                        
-                        <div class="css-examples">
-                            <h4>Quick Examples:</h4>
-                            <div class="example-buttons">
-                                <button class="example-btn" data-css="/* Ocean Theme */
+                                    <div class="css-status" id="cssStatus">
+                                        <span class="status-indicator" id="cssStatusIndicator"></span>
+                                        <span class="status-text" id="cssStatusText">Ready</span>
+                                    </div>
+                                </div>
+
+                                <div class="css-examples">
+                                    <h4>Quick Examples:</h4>
+                                    <div class="example-buttons">
+                                        <button class="example-btn" data-css="/* Ocean Theme */
 :root {
     --trans-blue: #0077BE;
     --trans-pink: #00A8E8;
@@ -572,7 +618,7 @@
     --trans-blue: #00A8E8;
     --trans-pink: #0077BE;
 }">Ocean Theme</button>
-                                <button class="example-btn" data-css="/* Sunset Theme */
+                                        <button class="example-btn" data-css="/* Sunset Theme */
 :root {
     --trans-blue: #FF6B35;
     --trans-pink: #F7931E;
@@ -581,7 +627,7 @@
     --trans-blue: #F7931E;
     --trans-pink: #FF6B35;
 }">Sunset Theme</button>
-                                <button class="example-btn" data-css="/* Forest Theme */
+                                        <button class="example-btn" data-css="/* Forest Theme */
 :root {
     --trans-blue: #2D5016;
     --trans-pink: #5A7C3A;
@@ -590,7 +636,7 @@
     --trans-blue: #5A7C3A;
     --trans-pink: #2D5016;
 }">Forest Theme</button>
-                                <button class="example-btn" data-css="/* Purple Theme */
+                                        <button class="example-btn" data-css="/* Purple Theme */
 :root {
     --trans-blue: #4A148C;
     --trans-pink: #7B1FA2;
@@ -599,103 +645,111 @@
     --trans-blue: #7B1FA2;
     --trans-pink: #4A148C;
 }">Purple Theme</button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
-                            <h3>Notifications</h3>
-                        </div>
-                        <div class="setting-row">
-                            <label>Daily Reminders</label>
-                            <label class="switch">
-                                <input type="checkbox" id="dailyReminders" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <label>Strain Alerts</label>
-                            <label class="switch">
-                                <input type="checkbox" id="strainAlerts" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-                            <h3>Pitch Alert</h3>
-                        </div>
-                        <p class="section-desc">Get an audio reminder when your pitch stays below your target range.</p>
-                        <div class="setting-row">
-                            <label>Enable Pitch Alert</label>
-                            <label class="switch">
-                                <input type="checkbox" id="pitchAlertEnabled" checked>
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-                        <div class="setting-row">
-                            <label>Alert Delay (seconds)</label>
-                            <input type="number" id="pitchAlertDelay" min="1" max="30" value="5" class="input-field small-input">
-                        </div>
-                        <div class="setting-row">
-                            <label>Alert Volume</label>
-                            <div class="slider-container">
-                                <input type="range" id="pitchAlertVolume" min="0" max="100" value="50" class="range-slider">
-                                <span id="pitchAlertVolumeValue">50%</span>
-                            </div>
-                        </div>
-                        <button class="btn btn-secondary" id="testPitchAlertBtn">Test Alert Sound</button>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                            <h3>Data Management</h3>
-                        </div>
-                        <p class="section-desc">Your data is stored locally. Export to backup or transfer to another device.</p>
-                        <div class="data-buttons">
-                            <button class="btn btn-secondary" id="exportDataBtn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                                Export Data
-                            </button>
-                            <button class="btn btn-secondary" id="importDataBtn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
-                                Import Data
-                            </button>
-                            <input type="file" id="importFileInput" accept=".json" class="hidden">
-                        </div>
-                        <div class="import-status hidden" id="importStatus"></div>
-                    </div>
-                    
-                    <div class="glass-card settings-section">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                            <h3>App Updates</h3>
-                        </div>
-                        <p class="section-desc">Check for and install new versions of Aria without clearing your data.</p>
-                        <div class="data-buttons">
-                            <button class="btn btn-secondary" id="checkUpdateBtn">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                                Check for Updates
-                            </button>
-                        </div>
-                        <div class="update-status hidden" id="updateStatus"></div>
-                    </div>
 
-                    <div class="glass-card settings-section danger-zone">
-                        <div class="section-header">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                            <h3>Danger Zone</h3>
+                        <div class="settings-panel" id="settings-notifications">
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                                    <h3>Notifications</h3>
+                                </div>
+                                <div class="setting-row">
+                                    <label>Daily Reminders</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="dailyReminders" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <label>Strain Alerts</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="strainAlerts" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M11 5L6 9H2v6h4l5 4V5z"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+                                    <h3>Pitch Alert</h3>
+                                </div>
+                                <p class="section-desc">Get an audio reminder when your pitch stays below your target range.</p>
+                                <div class="setting-row">
+                                    <label>Enable Pitch Alert</label>
+                                    <label class="switch">
+                                        <input type="checkbox" id="pitchAlertEnabled" checked>
+                                        <span class="slider"></span>
+                                    </label>
+                                </div>
+                                <div class="setting-row">
+                                    <label>Alert Delay (seconds)</label>
+                                    <input type="number" id="pitchAlertDelay" min="1" max="30" value="5" class="input-field small-input">
+                                </div>
+                                <div class="setting-row">
+                                    <label>Alert Volume</label>
+                                    <div class="slider-container">
+                                        <input type="range" id="pitchAlertVolume" min="0" max="100" value="50" class="range-slider">
+                                        <span id="pitchAlertVolumeValue">50%</span>
+                                    </div>
+                                </div>
+                                <button class="btn btn-secondary" id="testPitchAlertBtn">Test Alert Sound</button>
+                            </div>
                         </div>
-                        <p class="section-desc">Irreversible actions - use with caution</p>
-                        <button class="btn btn-danger" id="clearAllDataBtn">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
-                            Clear All Data
-                        </button>
+
+                        <div class="settings-panel" id="settings-data">
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                    <h3>Data Management</h3>
+                                </div>
+                                <p class="section-desc">Your data is stored locally. Export to backup or transfer to another device.</p>
+                                <div class="data-buttons">
+                                    <button class="btn btn-secondary" id="exportDataBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                                        Export Data
+                                    </button>
+                                    <button class="btn btn-secondary" id="importDataBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+                                        Import Data
+                                    </button>
+                                    <input type="file" id="importFileInput" accept=".json" class="hidden">
+                                </div>
+                                <div class="import-status hidden" id="importStatus"></div>
+                            </div>
+
+                            <div class="glass-card settings-section">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--trans-pink)" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                                    <h3>App Updates</h3>
+                                </div>
+                                <p class="section-desc">Check for and install new versions of Aria without clearing your data.</p>
+                                <div class="data-buttons">
+                                    <button class="btn btn-secondary" id="checkUpdateBtn">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                                        Check for Updates
+                                    </button>
+                                </div>
+                                <div class="update-status hidden" id="updateStatus"></div>
+                            </div>
+                        </div>
+
+                        <div class="settings-panel" id="settings-danger">
+                            <div class="glass-card settings-section danger-zone">
+                                <div class="section-header">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--danger)" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                    <h3>Danger Zone</h3>
+                                </div>
+                                <p class="section-desc">Irreversible actions - use with caution</p>
+                                <button class="btn btn-danger" id="clearAllDataBtn">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>
+                                    Clear All Data
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -893,38 +947,14 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>Training Intensity <span style="font-weight: normal; color: var(--muted); font-size: 12px;">(affects exercise difficulty)</span></label>
-                    <div class="intensity-options">
-                        <label class="intensity-option" title="Longer rest periods, simpler exercises">
-                            <input type="radio" name="intensity" value="beginner">
-                            <span>Beginner</span>
-                        </label>
-                        <label class="intensity-option active" title="Balanced difficulty and rest">
-                            <input type="radio" name="intensity" value="intermediate" checked>
-                            <span>Intermediate</span>
-                        </label>
-                        <label class="intensity-option" title="Shorter rests, higher targets">
-                            <input type="radio" name="intensity" value="advanced">
-                            <span>Advanced</span>
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Session Duration</label>
-                    <div class="duration-options">
-                        <label class="duration-option">
-                            <input type="radio" name="sessionDuration" value="5">
-                            <span>5 min</span>
-                        </label>
-                        <label class="duration-option active">
-                            <input type="radio" name="sessionDuration" value="15" checked>
-                            <span>15 min</span>
-                        </label>
-                        <label class="duration-option">
-                            <input type="radio" name="sessionDuration" value="30">
-                            <span>30 min</span>
-                        </label>
+                    <label for="modalAudioInputDevice">Microphone</label>
+                    <div class="audio-input-controls">
+                        <select id="modalAudioInputDevice" class="setting-select">
+                            <option value="">System Default</option>
+                        </select>
+                        <button id="modalRefreshAudioDevices" class="btn btn-secondary btn-sm" title="Refresh device list" aria-label="Refresh audio devices">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
+                        </button>
                     </div>
                 </div>
             </div>

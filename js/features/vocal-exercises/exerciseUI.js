@@ -190,6 +190,21 @@ function updateExerciseTargets(exercise) {
 }
 
 /**
+ * Clear exercise mode state without navigating or toggling training.
+ * Used when navigating away from the training screen to clean up exercise context.
+ */
+export function clearExerciseMode() {
+    currentExercise = null;
+    const panel = document.getElementById('exerciseModePanel');
+    if (panel) panel.classList.add('hidden');
+    if (exerciseProgressInterval) {
+        clearInterval(exerciseProgressInterval);
+        exerciseProgressInterval = null;
+    }
+    exerciseStartTime = null;
+}
+
+/**
  * Hide exercise mode panel and return to exercises list
  */
 export function exitExerciseMode() {

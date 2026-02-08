@@ -18,20 +18,12 @@ export async function openProfileModal() {
     // Load saved settings into modal
     const loadSettings = _callbacks.loadSettings;
     const profileName = await loadSettings('profileName', 'User');
-    const genderIdentity = await loadSettings('genderIdentity', 'prefer-not');
-    const pronouns = await loadSettings('pronouns', 'they/them');
     const targetMin = await loadSettings('targetMin', 140);
     const targetMax = await loadSettings('targetMax', 200);
-    const intensity = await loadSettings('intensity', 'intermediate');
-    const sessionDuration = await loadSettings('sessionDuration', '15');
     const sensitivity = await loadSettings('sensitivity', 75);
 
     // Populate form fields
     const nameInput = document.getElementById('modalProfileName');
-    const genderSelect = document.getElementById('modalGenderIdentity');
-    const genderCustomInput = document.getElementById('modalGenderIdentityCustom');
-    const pronounsSelect = document.getElementById('modalPronouns');
-    const pronounsCustomInput = document.getElementById('modalPronounsCustom');
     const minInput = document.getElementById('modalTargetMin');
     const maxInput = document.getElementById('modalTargetMax');
     const avatarEl = document.getElementById('modalProfileAvatar');
@@ -41,37 +33,12 @@ export async function openProfileModal() {
     if (maxInput) maxInput.value = targetMax;
     if (avatarEl) avatarEl.textContent = profileName.charAt(0).toUpperCase();
 
-    // Handle gender identity - check if it's a custom value
-    if (genderSelect) {
-        const genderOptions = Array.from(genderSelect.options).map(o => o.value);
-        if (genderOptions.includes(genderIdentity)) {
-            genderSelect.value = genderIdentity;
-            if (genderCustomInput) genderCustomInput.classList.add('hidden');
-        } else {
-            genderSelect.value = 'custom';
-            if (genderCustomInput) {
-                genderCustomInput.value = genderIdentity;
-                genderCustomInput.classList.remove('hidden');
-            }
-        }
-    }
-
-    // Handle pronouns - check if it's a custom value
-    if (pronounsSelect) {
-        const pronounsOptions = Array.from(pronounsSelect.options).map(o => o.value);
-        if (pronounsOptions.includes(pronouns)) {
-            pronounsSelect.value = pronouns;
-            if (pronounsCustomInput) pronounsCustomInput.classList.add('hidden');
-        } else {
-            pronounsSelect.value = 'custom';
-            if (pronounsCustomInput) {
-                pronounsCustomInput.value = pronouns;
-                pronounsCustomInput.classList.remove('hidden');
-            }
-        }
-    }
-
     // Set up custom input toggle handlers for modal
+    const genderSelect = document.getElementById('modalGenderIdentity');
+    const genderCustomInput = document.getElementById('modalGenderIdentityCustom');
+    const pronounsSelect = document.getElementById('modalPronouns');
+    const pronounsCustomInput = document.getElementById('modalPronounsCustom');
+
     if (genderSelect && genderCustomInput) {
         genderSelect.onchange = () => {
             genderCustomInput.classList.toggle('hidden', genderSelect.value !== 'custom');
@@ -88,13 +55,8 @@ export async function openProfileModal() {
     // Update pitch range display
     updateModalPitchRange(targetMin, targetMax);
 
-    // Set intensity radio
-    const intensityRadio = document.querySelector(`input[name="intensity"][value="${intensity}"]`);
-    if (intensityRadio) intensityRadio.checked = true;
-
-    // Set duration radio
-    const durationRadio = document.querySelector(`input[name="sessionDuration"][value="${sessionDuration}"]`);
-    if (durationRadio) durationRadio.checked = true;
+    // Populate modal mic selector
+    await populateModalAudioDevices();
 
     // Set sensitivity
     const sensitivitySlider = document.getElementById('modalSensitivity');
@@ -174,34 +136,47 @@ export function updateSensitivityMeter(value) {
     }
 }
 
+async function populateModalAudioDevices() {
+    const select = document.getElementById('modalAudioInputDevice');
+    const refreshBtn = document.getElementById('modalRefreshAudioDevices');
+    if (!select || !navigator.mediaDevices?.enumerateDevices) return;
+
+    async function populate() {
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const audioInputs = devices.filter(d => d.kind === 'audioinput');
+
+            while (select.options.length > 1) select.remove(1);
+
+            audioInputs.forEach(device => {
+                const option = document.createElement('option');
+                option.value = device.deviceId;
+                option.textContent = device.label || `Microphone (${device.deviceId.slice(0, 8)}...)`;
+                select.appendChild(option);
+            });
+
+            const saved = await _callbacks.loadSettings('audioInputDevice', '');
+            const exists = Array.from(select.options).some(o => o.value === saved);
+            select.value = exists ? saved : '';
+        } catch (err) {
+            console.error('[Profile] Failed to enumerate audio devices:', err);
+        }
+    }
+
+    if (refreshBtn) refreshBtn.addEventListener('click', populate);
+    await populate();
+}
+
 export async function saveProfileSettings() {
     const nameInput = document.getElementById('modalProfileName');
-    const genderSelect = document.getElementById('modalGenderIdentity');
-    const genderCustomInput = document.getElementById('modalGenderIdentityCustom');
-    const pronounsSelect = document.getElementById('modalPronouns');
-    const pronounsCustomInput = document.getElementById('modalPronounsCustom');
     const minInput = document.getElementById('modalTargetMin');
     const maxInput = document.getElementById('modalTargetMax');
     const sensitivitySlider = document.getElementById('modalSensitivity');
-    const intensityRadio = document.querySelector('input[name="intensity"]:checked');
-    const durationRadio = document.querySelector('input[name="sessionDuration"]:checked');
-
-    // Get actual gender/pronouns values (custom or selected)
-    let genderValue = genderSelect?.value || '';
-    if (genderValue === 'custom' && genderCustomInput?.value.trim()) {
-        genderValue = genderCustomInput.value.trim();
-    }
-
-    let pronounsValue = pronounsSelect?.value || '';
-    if (pronounsValue === 'custom' && pronounsCustomInput?.value.trim()) {
-        pronounsValue = pronounsCustomInput.value.trim();
-    }
+    const modalAudioInput = document.getElementById('modalAudioInputDevice');
 
     // Collect form data
     const formData = {
         profileName: nameInput?.value || '',
-        genderIdentity: genderValue,
-        pronouns: pronounsValue,
         targetMin: minInput?.value || '',
         targetMax: maxInput?.value || '',
         sensitivity: sensitivitySlider?.value || ''
@@ -222,8 +197,6 @@ export async function saveProfileSettings() {
     try {
         // Save validated settings
         if (nameInput) await saveSettings('profileName', validation.results.profileName.sanitized);
-        await saveSettings('genderIdentity', genderValue || validation.results.genderIdentity.sanitized);
-        await saveSettings('pronouns', pronounsValue || validation.results.pronouns.sanitized);
 
         if (validation.results.targetMin.isValid) {
             const minVal = validation.results.targetMin.sanitized;
@@ -238,21 +211,20 @@ export async function saveProfileSettings() {
         }
 
         if (sensitivitySlider) await saveSettings('sensitivity', parseInt(validation.results.sensitivity.sanitized));
-        if (intensityRadio) await saveSettings('intensity', intensityRadio.value);
-        if (durationRadio) await saveSettings('sessionDuration', durationRadio.value);
+        if (modalAudioInput) await saveSettings('audioInputDevice', modalAudioInput.value);
 
         // Update main settings page with sanitized values
         const mainNameInput = document.getElementById('profileName');
-        const mainGenderSelect = document.getElementById('genderIdentity');
-        const mainPronounsSelect = document.getElementById('pronouns');
         const mainMinInput = document.getElementById('targetMin');
         const mainMaxInput = document.getElementById('targetMax');
 
         if (mainNameInput) mainNameInput.value = validation.results.profileName.sanitized;
-        if (mainGenderSelect) mainGenderSelect.value = validation.results.genderIdentity.sanitized;
-        if (mainPronounsSelect) mainPronounsSelect.value = validation.results.pronouns.sanitized;
         if (mainMinInput) mainMinInput.value = validation.results.targetMin.sanitized;
         if (mainMaxInput) mainMaxInput.value = validation.results.targetMax.sanitized;
+
+        // Sync mic selector on settings page
+        const mainAudioSelect = document.getElementById('audioInputDevice');
+        if (mainAudioSelect && modalAudioInput) mainAudioSelect.value = modalAudioInput.value;
 
         // Update sidebar and visualizations
         _callbacks.updateSidebarProfile?.();
